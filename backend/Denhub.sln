@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denhub.API", "Denhub.API\Denhub.API.csproj", "{158D90B9-3ECC-473A-B40A-B0A6E6E08109}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denhub.API.Tests", "Denhub.API.Tests\Denhub.API.Tests.csproj", "{70FEAAD4-C7E5-4780-85A5-6C287504E13D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{158D90B9-3ECC-473A-B40A-B0A6E6E08109}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{158D90B9-3ECC-473A-B40A-B0A6E6E08109}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{158D90B9-3ECC-473A-B40A-B0A6E6E08109}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{158D90B9-3ECC-473A-B40A-B0A6E6E08109}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70FEAAD4-C7E5-4780-85A5-6C287504E13D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70FEAAD4-C7E5-4780-85A5-6C287504E13D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70FEAAD4-C7E5-4780-85A5-6C287504E13D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70FEAAD4-C7E5-4780-85A5-6C287504E13D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

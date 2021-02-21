@@ -1,9 +1,13 @@
+using System.Net.Http;
+using Denhub.API.Models;
+using Denhub.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
 
 namespace Denhub.API {
     public class Startup {
@@ -15,6 +19,15 @@ namespace Denhub.API {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
+            services.Configure<TwitchClientSettings>(options =>
+                Configuration.GetSection("TwitchClientSettings").Bind(options));
+            
+            services.AddTransient<HttpClient>();
+            services.AddTransient<IConnectionMultiplexer, ConnectionMultiplexer>(provider =>
+                ConnectionMultiplexer.Connect(Configuration.GetValue("Redis:ConfigString", "localhost:6379")));
+            services.AddTransient<ITwitchClient, TwitchClient>();
+            services.AddTransient<IVodRepository, RedisVodRepository>();
+            services.AddTransient<IVodsService, VodsService>();
             services.AddControllers();
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "Denhub.API", Version = "v1"});

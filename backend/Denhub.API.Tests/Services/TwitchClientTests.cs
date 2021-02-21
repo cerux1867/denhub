@@ -6,9 +6,11 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Denhub.API.Models;
 using Denhub.API.Models.Twitch;
 using Denhub.API.Services;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
 using Moq.Protected;
 using Xunit;
@@ -16,9 +18,15 @@ using Xunit;
 namespace Denhub.API.Tests.Services {
     public class TwitchClientTests {
         private readonly Mock<ILogger<TwitchClient>> _logger;
+        private readonly Mock<IOptions<TwitchClientSettings>> _optionsMock;
 
         public TwitchClientTests() {
             _logger = new Mock<ILogger<TwitchClient>>();
+            _optionsMock = new Mock<IOptions<TwitchClientSettings>>();
+            _optionsMock.SetupGet(m => m.Value).Returns(new TwitchClientSettings {
+                Token = "test",
+                ClientId = "test"
+            });
         }
 
         [Theory]
@@ -36,7 +44,7 @@ namespace Denhub.API.Tests.Services {
                     StatusCode = HttpStatusCode.OK
                 })
                 .Verifiable();
-            var client = new TwitchClient(_logger.Object, httpClientMock.Object);
+            var client = new TwitchClient(_logger.Object, httpClientMock.Object, _optionsMock.Object);
 
             var response = await client.GetVideosByUserIdAsync(1, null, 100, type);
             var list = response.Data.ToList();
@@ -54,7 +62,7 @@ namespace Denhub.API.Tests.Services {
                     StatusCode = HttpStatusCode.BadRequest
                 })
                 .Verifiable();
-            var client = new TwitchClient(_logger.Object, httpClientMock.Object);
+            var client = new TwitchClient(_logger.Object, httpClientMock.Object, _optionsMock.Object);
 
             await Assert.ThrowsAsync<Exception>(async () => await client.GetVideosByUserIdAsync(1));
         }
@@ -70,7 +78,7 @@ namespace Denhub.API.Tests.Services {
                     StatusCode = HttpStatusCode.OK
                 })
                 .Verifiable();
-            var client = new TwitchClient(_logger.Object, httpClientMock.Object);
+            var client = new TwitchClient(_logger.Object, httpClientMock.Object, _optionsMock.Object);
 
             var response = await client.GetVideosByUserIdAsync(1);
             var list = response.Data.ToList();
@@ -90,7 +98,7 @@ namespace Denhub.API.Tests.Services {
                     StatusCode = HttpStatusCode.OK
                 })
                 .Verifiable();
-            var client = new TwitchClient(_logger.Object, httpClientMock.Object);
+            var client = new TwitchClient(_logger.Object, httpClientMock.Object, _optionsMock.Object);
 
             var response = await client.GetUsersAsync(new [] { "twitchdev" });
             var list = response.Data.ToList();
@@ -101,7 +109,7 @@ namespace Denhub.API.Tests.Services {
         [Fact]
         public async Task GetUsersAsync_TooManyLoginNames_Throws() {
             var httpClientMock = new Mock<HttpClient>();
-            var client = new TwitchClient(_logger.Object, httpClientMock.Object);
+            var client = new TwitchClient(_logger.Object, httpClientMock.Object, _optionsMock.Object);
             var loginNames = new List<string>();
             for (var i = 0; i < 200; i++) {
                 loginNames.Add("login_name");
@@ -120,7 +128,7 @@ namespace Denhub.API.Tests.Services {
                     StatusCode = HttpStatusCode.BadRequest
                 })
                 .Verifiable();
-            var client = new TwitchClient(_logger.Object, httpClientMock.Object);
+            var client = new TwitchClient(_logger.Object, httpClientMock.Object, _optionsMock.Object);
 
             await Assert.ThrowsAsync<Exception>(async () => await client.GetUsersAsync(new[] {"twitchdev"}));
         }

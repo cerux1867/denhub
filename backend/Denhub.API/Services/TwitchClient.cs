@@ -6,10 +6,12 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Denhub.API.Models;
 using Denhub.API.Models.Twitch;
 using Denhub.API.Utils;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Denhub.API.Services {
     public class TwitchClient : ITwitchClient {
@@ -17,13 +19,12 @@ namespace Denhub.API.Services {
         private readonly ILogger<TwitchClient> _logger;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-        public TwitchClient(ILogger<TwitchClient> logger, HttpClient client) {
+        public TwitchClient(ILogger<TwitchClient> logger, HttpClient client, IOptions<TwitchClientSettings> settings) {
             _logger = logger;
             _httpClient = client;
             client.BaseAddress = new Uri("https://api.twitch.tv/helix/");
-            const string token = "egc67gedp5x3wrjcuoau6tcir9f3hx";
-            client.DefaultRequestHeaders.Authorization = AuthenticationHeaderValue.Parse($"Bearer {token}");
-            client.DefaultRequestHeaders.Add("Client-Id", "i9a1wbqjoyefg4pt9zx6nwq644q19q");
+            client.DefaultRequestHeaders.Authorization = AuthenticationHeaderValue.Parse($"Bearer {settings.Value.Token}");
+            client.DefaultRequestHeaders.Add("Client-Id", settings.Value.ClientId);
             _jsonSerializerOptions = new JsonSerializerOptions {
                 PropertyNamingPolicy = SnakeCaseNamingPolicy.Instance,
                 Converters = {

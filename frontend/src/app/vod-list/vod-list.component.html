@@ -1,0 +1,16 @@
+<div class="container-fluid mt-3" infinite-scroll (scrolled)="onScrollDown()">
+  <div class="row">
+    <div *ngFor="let vod of vodList" class="col-sm-12 col-md-4 col-xl-2 d-flex align-items-stretch">
+      <div class="card vod-card bg-dark">
+        <div class="card-img-caption">
+          <p class="card-text text-light">{{vod.length | humaniseLength}}</p>
+          <img class="card-img-top img-fluid" [src]="vod.thumbnailUrl | transformTwitchThumbnailUrl" alt="Card image cap">
+        </div>
+        <div class="card-body text-light d-flex flex-column">
+          <h5 title="{{ vod.title }}" class="card-title mt-auto">{{ (vod.title.length >62)? (vod.title | slice:0:62)+'...':(vod.title) }}</h5>
+          <a href="#" class="card-link text-muted mt-auto">Watch</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

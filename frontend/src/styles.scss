@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+$den-dark: #343a40;
+
+$theme-colors: (
+    "dark": #212529,
+    "den-dark": $den-dark
+);
+
+$body-bg: $den-dark;
+
+@import '~bootstrap/scss/bootstrap';

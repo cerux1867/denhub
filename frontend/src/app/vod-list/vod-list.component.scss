@@ -1,0 +1,32 @@
+.vod-card {
+  min-width: 10em;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  max-width: 590px;
+
+  .card-img-caption {
+    border-top-left-radius: calc(.25rem - 1px);
+    border-top-right-radius: calc(.25rem - 1px);
+    position: relative;
+
+    .card-text {
+      position: absolute;
+      font-size: 12px;
+      bottom: 0;
+      right: 0;
+      margin-bottom: 0;
+      z-index: 1;
+      background: rgba(black, 0.7)
+    }
+
+    .card-img-top {
+      z-index: 0;
+    }
+  }
+}
+
+.vod-card:hover {
+  box-shadow: 1px 8px 20px grey;
+  -webkit-transition: box-shadow .2s ease-in;
+  transition: box-shadow .2s ease-in;
+}

@@ -13,5 +13,4 @@ export class TransformTwitchThumbnailUrlPipe implements PipeTransform {
     var heightTransformed = widthTransformed.replace('%{height}', `${height}`);
     return heightTransformed;
   }
-
 }

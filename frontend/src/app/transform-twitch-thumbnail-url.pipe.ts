@@ -3,13 +3,14 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({ name: 'transformTwitchThumbnailUrl' })
 export class TransformTwitchThumbnailUrlPipe implements PipeTransform {
   /**
-   * Takes a URL with the following strings '%{height}%' and '%{width}%' and
-   * replaces them with numerical values
-   * @param value URL with strings '%{height}%' and '%{width}%'
+   * Turns a twitch thumbnail URL with placeholder parameters into a width and height enriched thumbnail URL
+   * @param thumbnailUrl Thumbnail URL with placeholder params for width and height
+   * @param height Height in pixels of the desired thumbnail image. Defaults to 720.
+   * @param width Width in pixels of the desired thumbnail image. Defaults to 1280.
    */
-  transform(thumbnailUrl: string, height = 508, width = 320) {
-    var widthTransformed = thumbnailUrl.replace('%{width}', `${height}`);
-    var heightTransformed = widthTransformed.replace('%{height}', `${width}`);
+  transform(thumbnailUrl: string, height = 720, width = 1280) {
+    var widthTransformed = thumbnailUrl.replace('%{width}', `${width}`);
+    var heightTransformed = widthTransformed.replace('%{height}', `${height}`);
     return heightTransformed;
   }
 

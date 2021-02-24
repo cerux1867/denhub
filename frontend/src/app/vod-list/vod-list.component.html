@@ -4,7 +4,7 @@
       <div class="card vod-card bg-dark">
         <div class="card-img-caption">
           <p class="card-text text-light">{{vod.length | humaniseLength}}</p>
-          <img class="card-img-top img-fluid" [src]="vod.thumbnailUrl | transformTwitchThumbnailUrl" alt="Card image cap">
+          <img class="card-img-top img-fluid" [src]="vod.thumbnailUrl | transformTwitchThumbnailUrl: 720 : 1280" alt="Card image cap">
         </div>
         <div class="card-body text-light d-flex flex-column">
           <h5 title="{{ vod.title }}" class="card-title mt-auto">{{ (vod.title.length >62)? (vod.title | slice:0:62)+'...':(vod.title) }}</h5>

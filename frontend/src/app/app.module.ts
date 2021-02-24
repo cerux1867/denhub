@@ -9,7 +9,7 @@ import { VodListComponent } from './vod-list/vod-list.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { HumaniseLengthPipe } from './humanise-length.pipe';
 import { TransformTwitchThumbnailUrlPipe } from './transform-twitch-thumbnail-url.pipe';
-
+import { NgxBootstrapIconsModule, twitch } from 'ngx-bootstrap-icons';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +22,10 @@ import { TransformTwitchThumbnailUrlPipe } from './transform-twitch-thumbnail-ur
     AppRoutingModule,
     NgbModule,
     HttpClientModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    NgxBootstrapIconsModule.pick({
+      twitch
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

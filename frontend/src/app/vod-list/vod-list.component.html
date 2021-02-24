@@ -8,7 +8,9 @@
         </div>
         <div class="card-body text-light d-flex flex-column">
           <h5 title="{{ vod.title }}" class="card-title mt-auto">{{ (vod.title.length >62)? (vod.title | slice:0:62)+'...':(vod.title) }}</h5>
-          <a href="#" class="card-link text-muted mt-auto">Watch</a>
+          <div class="mt-auto">
+            <span class="badge badge-pill badge-twitch"><i-bs name="twitch"></i-bs> Twitch</span>
+          </div>
         </div>
       </div>
     </div>

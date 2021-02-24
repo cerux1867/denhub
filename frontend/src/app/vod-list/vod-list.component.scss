@@ -1,8 +1,11 @@
+@import '../../custom-variables.scss';
+
 .vod-card {
   min-width: 10em;
   margin-top: 5px;
   margin-bottom: 5px;
   max-width: 590px;
+  cursor: pointer;
 
   .card-img-caption {
     border-top-left-radius: calc(.25rem - 1px);
@@ -26,7 +29,11 @@
 }
 
 .vod-card:hover {
-  box-shadow: 1px 8px 20px grey;
+  box-shadow: 1px 8px 20px #27752c;
   -webkit-transition: box-shadow .2s ease-in;
   transition: box-shadow .2s ease-in;
+}
+
+.badge-twitch {
+  background-color: $twitch-purple;
 }

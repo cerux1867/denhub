@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { VodListComponent } from './vod-list/vod-list.component';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { HumaniseLengthPipe } from './humanise-length.pipe';
 import { TransformTwitchThumbnailUrlPipe } from './transform-twitch-thumbnail-url.pipe';
 import { NgxBootstrapIconsModule, twitch } from 'ngx-bootstrap-icons';
@@ -22,7 +21,6 @@ import { NgxBootstrapIconsModule, twitch } from 'ngx-bootstrap-icons';
     AppRoutingModule,
     NgbModule,
     HttpClientModule,
-    InfiniteScrollModule,
     NgxBootstrapIconsModule.pick({
       twitch
     })

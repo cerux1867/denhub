@@ -1,5 +1,5 @@
-<div class="container-fluid mt-3" infinite-scroll (scrolled)="onScrollDown()">
-  <div class="row">
+<div class="container-fluid mt-3">
+  <div class="row" *ngIf="!isFirstLoad">
     <div *ngFor="let vod of vodList" class="col-sm-12 col-md-4 col-xl-2 d-flex align-items-stretch">
       <div class="card vod-card bg-dark">
         <div class="card-img-caption">
@@ -13,6 +13,23 @@
           </div>
         </div>
       </div>
+    </div>
+    <div *ngIf="isLoading" class="spinner-container col-sm-12 col-md-4 col-xl-2 d-flex align-items-stretch">
+      <span class="spinner"></span>
+    </div>
+  </div>
+  <div class="row" *ngIf="isFirstLoad">
+    <div *ngFor="let card of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" class="col-sm-12 col-md-4 col-xl-2 d-flex align-items-stretch">
+      <div class="card placeholder-card vod-card bg-dark">
+        <div class="shimmer shine placeholder-card-img"></div>
+        <div class="card-body text-light d-flex flex-column">
+          <div class="shimmer shine placeholder-card-title"></div>
+          <div class="shimmer shine placeholder-card-badge"></div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isLoading" class="spinner-container col-sm-12 col-md-4 col-xl-2 d-flex align-items-stretch">
+      <span class="spinner"></span>
     </div>
   </div>
 </div>

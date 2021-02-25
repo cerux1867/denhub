@@ -10,6 +10,7 @@ import { HumaniseLengthPipe } from './humanise-length.pipe';
 import { TransformTwitchThumbnailUrlPipe } from './transform-twitch-thumbnail-url.pipe';
 import { NgxBootstrapIconsModule, twitch } from 'ngx-bootstrap-icons';
 import { LazyImgDirective } from './lazy-img.directive';
+import { VodCardComponent } from './vod-card/vod-card.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,6 +18,7 @@ import { LazyImgDirective } from './lazy-img.directive';
     HumaniseLengthPipe,
     TransformTwitchThumbnailUrlPipe,
     LazyImgDirective,
+    VodCardComponent,
   ],
   imports: [
     BrowserModule,

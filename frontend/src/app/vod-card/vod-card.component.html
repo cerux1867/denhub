@@ -1,0 +1,16 @@
+<div class="card vod-card bg-dark">
+  <div class="card-img-caption">
+    <div *ngIf="!isImageLoaded" class="shimmer shine placeholder-card-img"></div>
+    <p class="card-text text-light">{{length}}</p>
+    <img #image class="card-img-top img-fluid" [src]="thumbnailUrl" alt="Card image cap">
+  </div>
+  <div class="card-body text-light d-flex flex-column">
+    <h5 title="{{ title }}" class="card-title mt-auto">
+      {{ (title.length >62)? (title | slice:0:62)+'...':(title) }}</h5>
+    <div class="mt-auto">
+      <span class="badge badge-pill badge-twitch">
+        <i-bs name="twitch"></i-bs> Twitch
+      </span>
+    </div>
+  </div>
+</div>

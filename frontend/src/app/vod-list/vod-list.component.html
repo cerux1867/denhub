@@ -1,25 +1,15 @@
 <div class="container-fluid mt-3">
   <div class="row" *ngIf="!isFirstLoad">
-    <div *ngFor="let vod of vodList" class="col-sm-12 col-md-4 col-xl-2 d-flex align-items-stretch">
-      <div class="card vod-card bg-dark">
-        <div class="card-img-caption">
-          <p class="card-text text-light">{{vod.length | humaniseLength}}</p>
-          <img class="card-img-top img-fluid" [src]="vod.thumbnailUrl | transformTwitchThumbnailUrl" alt="Card image cap">
-        </div>
-        <div class="card-body text-light d-flex flex-column">
-          <h5 title="{{ vod.title }}" class="card-title mt-auto">{{ (vod.title.length >62)? (vod.title | slice:0:62)+'...':(vod.title) }}</h5>
-          <div class="mt-auto">
-            <span class="badge badge-pill badge-twitch"><i-bs name="twitch"></i-bs> Twitch</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <app-vod-card class="col-sm-12 col-md-4 col-xl-2 d-flex align-items-stretch" *ngFor="let vod of vodList"
+      [title]="vod.title" [length]="vod.length | humaniseLength" [thumbnailUrl]="vod.thumbnailUrl | transformTwitchThumbnailUrl">
+    </app-vod-card>
     <div *ngIf="isLoading" class="spinner-container col-sm-12 col-md-4 col-xl-2 d-flex align-items-stretch">
       <span class="spinner"></span>
     </div>
   </div>
   <div class="row" *ngIf="isFirstLoad">
-    <div *ngFor="let card of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" class="col-sm-12 col-md-4 col-xl-2 d-flex align-items-stretch">
+    <div *ngFor="let card of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]"
+      class="col-sm-12 col-md-4 col-xl-2 d-flex align-items-stretch">
       <div class="card placeholder-card vod-card bg-dark">
         <div class="shimmer shine placeholder-card-img"></div>
         <div class="card-body text-light d-flex flex-column">

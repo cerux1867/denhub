@@ -72,6 +72,7 @@ namespace Denhub.API.Services {
             }
 
             var redisValues = vodList.Select(vod => new RedisValue(JsonSerializer.Serialize(vod)));
+            await _multiplexer.GetDatabase().KeyDeleteAsync(channelId.ToString());
             await _multiplexer.GetDatabase().ListRightPushAsync(channelId.ToString(), redisValues.ToArray());
             await _multiplexer.GetDatabase().KeyExpireAsync(channelId.ToString(), TimeSpan.FromMinutes(10));
         }

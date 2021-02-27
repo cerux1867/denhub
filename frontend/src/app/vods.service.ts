@@ -10,8 +10,8 @@ export class VodsService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public getVods(page = 1, limit = 10): Observable<any[]> {
-    return this.httpClient.get<any[]>('https://localhost:5001/vods/esfandtv', {
+  public getVods(channelName: string, page = 1, limit = 10): Observable<any[]> {
+    return this.httpClient.get<any[]>(`https://localhost:5001/vods/${channelName}`, {
       params: new HttpParams()
         .set('page', page.toString())
         .set('limit', limit.toString())

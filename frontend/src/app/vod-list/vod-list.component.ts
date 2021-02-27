@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { VodsService } from '../vods.service';
+import { IChannel } from './IChannel';
 
 @Component({
   selector: 'app-vod-list',
@@ -11,6 +12,11 @@ export class VodListComponent implements OnInit {
   public isLoading: boolean = false;
   public isFirstLoad: boolean = true;
   public loadedAll: boolean = false;
+  public availableChannelList = new Array<IChannel>({
+    displayName: 'EsfandTV',
+    channelName: 'esfandtv'
+  });
+  public selectedChannel: IChannel = this.availableChannelList[0];
 
   private pageNum: number = 1;
 
@@ -23,9 +29,20 @@ export class VodListComponent implements OnInit {
     this.onScrollDown();
   }
 
+  onChannelChange(channel: any): void {
+    this.selectedChannel = channel;
+    this.vodList = [];
+    this.isFirstLoad = true;
+    this.loadedAll = false;
+    this.pageNum = 1;
+    
+    this.fetchVods();
+    this.onScrollDown();
+  }
+
   fetchVods(): void {
     this.isLoading = true;
-    this.vodsService.getVods(this.pageNum, 15).subscribe((data) => {
+    this.vodsService.getVods(this.selectedChannel.channelName, this.pageNum, 15).subscribe((data) => {
       if (data.length) {
         this.vodList.push(...data);
       } else {

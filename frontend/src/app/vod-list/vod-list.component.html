@@ -1,7 +1,21 @@
 <div class="container-fluid mt-3">
+  <div class="row justify-content-center mt-3 mb-3">
+    <div class="input-group col-sm-12 col-md-6">
+      <input type="text" class="form-control" placeholder="Search by VoD title..." aria-label="Text input with dropdown button">
+      <div class="input-group-append">
+        <div ngbDropdown class="d-inline-block">
+          <button class="btn btn-outline-secondary text-light" id="dropdownBasic1" ngbDropdownToggle>{{ selectedChannel.displayName }}</button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button *ngFor="let channel of availableChannelList" ngbDropdownItem (click)="onChannelChange(channel)">{{ channel.displayName }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="row" *ngIf="!isFirstLoad">
     <app-vod-card class="col-sm-12 col-md-4 col-xl-2 d-flex align-items-stretch" *ngFor="let vod of vodList"
-      [title]="vod.title" [length]="vod.length | humaniseLength" [thumbnailUrl]="vod.thumbnailUrl | transformTwitchThumbnailUrl">
+      [title]="vod.title" [length]="vod.length | humaniseLength"
+      [thumbnailUrl]="vod.thumbnailUrl | transformTwitchThumbnailUrl">
     </app-vod-card>
     <div *ngIf="isLoading" class="spinner-container col-sm-12 col-md-4 col-xl-2 d-flex align-items-stretch">
       <span class="spinner"></span>

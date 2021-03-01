@@ -21,7 +21,7 @@ namespace Denhub.API.Tests.Services {
         public async Task GetVideosByUserIdAsync_TwitchVodsForChannel_ListOfVods() {
             var vodRepoMock = new Mock<IVodRepository>();
             var twitchClientMock = new Mock<ITwitchClient>();
-            vodRepoMock.Setup(m => m.GetOrFetchVodsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(new List<CommonVodModel> {
+            vodRepoMock.Setup(m => m.GetOrFetchVodsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>())).ReturnsAsync(new List<CommonVodModel> {
                 new() {
                     Title = "test"
                 },
@@ -43,7 +43,7 @@ namespace Denhub.API.Tests.Services {
         public async Task GetVideosByUserIdAsync_ChannelDoesntExist_EmptyList() {
             var vodRepoMock = new Mock<IVodRepository>();
             var twitchClientMock = new Mock<ITwitchClient>();
-            vodRepoMock.Setup(m => m.GetOrFetchVodsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(new List<CommonVodModel>());
+            vodRepoMock.Setup(m => m.GetOrFetchVodsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>())).ReturnsAsync(new List<CommonVodModel>());
             var service = new VodsService(_logger.Object, vodRepoMock.Object, twitchClientMock.Object);
 
             var result = (await service.GetAllByIdAsync(1)).ToList();

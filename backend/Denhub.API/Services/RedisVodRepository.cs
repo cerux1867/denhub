@@ -21,7 +21,7 @@ namespace Denhub.API.Services {
         }
 
         public async Task<IEnumerable<CommonVodModel>> GetOrFetchVodsAsync(int channelId, int offset = 0,
-            int limit = 100) {
+            int limit = 100, string titleFilter = "") {
             var cacheExists = await _multiplexer.GetDatabase().KeyExistsAsync(channelId.ToString());
             if (!cacheExists) {
                 await RefreshCacheAsync(channelId);
@@ -38,8 +38,18 @@ namespace Denhub.API.Services {
                 }
             }
 
-            var cachedVods = await _multiplexer.GetDatabase().ListRangeAsync(channelId.ToString(), offset, limit);
-            return cachedVods.Select(vod => JsonSerializer.Deserialize<CommonVodModel>(vod)).Where(vodModel => !string.IsNullOrEmpty(vodModel?.ThumbnailUrl));
+            var cachedVods = await _multiplexer.GetDatabase().ListRangeAsync(channelId.ToString());
+            var archivedVods = cachedVods.Select(vod => JsonSerializer.Deserialize<CommonVodModel>(vod)).Where(vodModel => !string.IsNullOrEmpty(vodModel?.ThumbnailUrl));
+            if (!string.IsNullOrEmpty(titleFilter)) {
+                archivedVods = archivedVods.Where(vod => vod.Title.ToLowerInvariant().Contains(titleFilter.ToLowerInvariant()));
+            }
+
+            if (offset >= archivedVods.Count()) {
+                return Array.Empty<CommonVodModel>();
+            }
+            var calculatedLimit = offset + limit - 1 < archivedVods.Count() ? limit : archivedVods.Count();
+
+            return archivedVods.ToList().GetRange(offset, calculatedLimit);
         }
 
         private async Task RefreshCacheAsync(int channelId) {

@@ -11,6 +11,6 @@ namespace Denhub.API.Services {
         /// <param name="offset"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        public Task<IEnumerable<CommonVodModel>> GetOrFetchVodsAsync(int channelId, int offset = 0, int limit = 100);
+        public Task<IEnumerable<CommonVodModel>> GetOrFetchVodsAsync(int channelId, int offset = 0, int limit = 100, string titleFilter = "");
     }
 }

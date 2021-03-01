@@ -26,10 +26,9 @@ namespace Denhub.API.Services {
             return -1;
         }
 
-        public async Task<IEnumerable<CommonVodModel>> GetAllByIdAsync(int channelId, int page = 1, int limit = 10) {
+        public async Task<IEnumerable<CommonVodModel>> GetAllByIdAsync(int channelId, int page = 1, int limit = 10, string titleFilter = "") {
             var startIndex = page == 1 ? 0 : (page - 1) * limit;
-            var endIndex = startIndex + limit;
-            return await _vodRepository.GetOrFetchVodsAsync(channelId, startIndex, endIndex - 1);
+            return await _vodRepository.GetOrFetchVodsAsync(channelId, startIndex, limit, titleFilter);
         }
     }
 }

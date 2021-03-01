@@ -20,7 +20,7 @@ namespace Denhub.API.Controllers {
                 return NotFound();
             }
 
-            var vods = await _vodsService.GetAllByIdAsync(channelId, vodsParameters.Page, vodsParameters.Limit);
+            var vods = await _vodsService.GetAllByIdAsync(channelId, vodsParameters.Page, vodsParameters.Limit, vodsParameters.Title);
             return Ok(vods);
         }
     }

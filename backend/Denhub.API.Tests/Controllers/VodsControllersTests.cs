@@ -15,7 +15,7 @@ namespace Denhub.API.Tests.Controllers {
         public async Task GetAllByChannelNameAsync_ChannelExistsVodsExist_Status200Ok() {
             var vodsServiceMock = new Mock<IVodsService>();
             vodsServiceMock.Setup(m => m.GetChannelIdByChannelNameAsync(It.IsAny<string>())).ReturnsAsync(1);
-            vodsServiceMock.Setup(m => m.GetAllByIdAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(new List<CommonVodModel> {
+            vodsServiceMock.Setup(m => m.GetAllByIdAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>())).ReturnsAsync(new List<CommonVodModel> {
                 new() {
                     Title = "test"
                 },

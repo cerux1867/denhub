@@ -13,7 +13,7 @@ using Xunit;
 namespace Denhub.API.Tests.Services {
     public class RedisVodRepositoryTests {
         [Fact]
-        public async Task GetOrFetchVodsAsync_InitialFetchNoPaginationRequired_VodsList() {
+        public async Task GetOrFetchVodsAsync_InitialFetchVods_VodsList() {
             var twitchClientMock = new Mock<ITwitchClient>();
             var redisClientMock = new Mock<IConnectionMultiplexer>();
             twitchClientMock
@@ -63,6 +63,62 @@ namespace Denhub.API.Tests.Services {
             var result = await repo.GetOrFetchVodsAsync(1);
 
             Assert.Equal(3, result.Count());
+        }
+        
+        [Fact]
+        public async Task GetOrFetchVodsAsync_InitialFetchVodsFilter_FilteredVodsList() {
+            var twitchClientMock = new Mock<ITwitchClient>();
+            var redisClientMock = new Mock<IConnectionMultiplexer>();
+            twitchClientMock
+                .Setup(m => m.GetVideosByUserIdAsync(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>(),
+                    It.IsAny<TwitchVideoItemType>())).ReturnsAsync(new TwitchResponseModel<IEnumerable<TwitchVideoItem>> {
+                    Data = new List<TwitchVideoItem> {
+                        new() {
+                            Id = "1",
+                            PublishedAt = DateTime.Now,
+                            ThumbnailUrl = "test.com",
+                            Title = "test"
+                        },
+                        new() {
+                            Id = "1",
+                            PublishedAt = DateTime.Now,
+                            ThumbnailUrl = "test.com",
+                            Title = "test"
+                        },
+                        new() {
+                            Id = "1",
+                            PublishedAt = DateTime.Now,
+                            ThumbnailUrl = "test.com",
+                            Title = "yep"
+                        }
+                    },
+                    Pagination = new TwitchPagination()
+                });
+            redisClientMock.Setup(m => m.GetDatabase(It.IsAny<int>(), It.IsAny<object>())).Returns(() => {
+                var db = new Mock<IDatabase>();
+                db.Setup(m => m.KeyExistsAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>())).ReturnsAsync(false);
+                db.Setup(m => m.ListRangeAsync(It.IsAny<RedisKey>(), It.IsAny<long>(), It.IsAny<long>(),
+                    It.IsAny<CommandFlags>())).ReturnsAsync(new List<RedisValue> {
+                    new(JsonSerializer.Serialize(new CommonVodModel {
+                        Title = "test",
+                        ThumbnailUrl = "test.com"
+                    })),
+                    new(JsonSerializer.Serialize(new CommonVodModel {
+                        Title = "test",
+                        ThumbnailUrl = "test.com"
+                    })),
+                    new(JsonSerializer.Serialize(new CommonVodModel {
+                        Title = "yep",
+                        ThumbnailUrl = "test.com"
+                    }))
+                }.ToArray());
+                return db.Object;
+            });
+            var repo = new RedisVodRepository(twitchClientMock.Object, redisClientMock.Object);
+
+            var result = await repo.GetOrFetchVodsAsync(1, 0, 100, "test");
+
+            Assert.Equal(2, result.Count());
         }
 
         [Fact]

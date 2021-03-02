@@ -39,15 +39,15 @@ namespace Denhub.API.Services {
             }
 
             var cachedVods = await _multiplexer.GetDatabase().ListRangeAsync(channelId.ToString());
-            var archivedVods = cachedVods.Select(vod => JsonSerializer.Deserialize<CommonVodModel>(vod)).Where(vodModel => !string.IsNullOrEmpty(vodModel?.ThumbnailUrl));
+            var archivedVods = cachedVods.Select(vod => JsonSerializer.Deserialize<CommonVodModel>(vod)).Where(vodModel => !string.IsNullOrEmpty(vodModel?.ThumbnailUrl)).ToList();
             if (!string.IsNullOrEmpty(titleFilter)) {
-                archivedVods = archivedVods.Where(vod => vod.Title.ToLowerInvariant().Contains(titleFilter.ToLowerInvariant()));
+                archivedVods = archivedVods.Where(vod => vod.Title.ToLowerInvariant().Contains(titleFilter.ToLowerInvariant())).ToList();
             }
 
-            if (offset >= archivedVods.Count()) {
+            if (offset >= archivedVods.Count) {
                 return Array.Empty<CommonVodModel>();
             }
-            var calculatedLimit = offset + limit - 1 < archivedVods.Count() ? limit : archivedVods.Count();
+            var calculatedLimit = offset + limit - 1 < archivedVods.Count ? limit : archivedVods.Count - offset;
 
             return archivedVods.ToList().GetRange(offset, calculatedLimit);
         }

@@ -76,7 +76,7 @@ export class VodListComponent implements OnInit {
   onScrollDown(): void {
     window.onscroll = () => {
       const isBottom = this.isBottom();
-      if (!isBottom && !this.loadedAll) {
+      if (!isBottom && !this.loadedAll && !this.isLoading) {
         this._pageNum++;
         this.fetchVods();
       }
@@ -84,7 +84,7 @@ export class VodListComponent implements OnInit {
   }
 
   isBottom(): boolean {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && !this.isLoading) {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
       return false;
     }
     return true;

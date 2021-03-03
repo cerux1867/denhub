@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  denhubApiUrl: process.env.DENHUB_API_URL || 'https://localhost:5001'
+  denhubApiUrl: 'https://localhost:5001'
 };
 
 /*

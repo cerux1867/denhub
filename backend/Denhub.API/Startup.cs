@@ -21,6 +21,19 @@ namespace Denhub.API {
         public void ConfigureServices(IServiceCollection services) {
             services.Configure<TwitchClientSettings>(options =>
                 Configuration.GetSection("TwitchClientSettings").Bind(options));
+
+            var allowedOrigins = Configuration.GetSection("Cors:AllowedOrigins");
+            var allowedOriginsList = allowedOrigins.Get<string[]>() ?? new [] {"*"};
+            
+            services.AddCors(options => {
+                options.AddPolicy("AllowedOrigins", builder => {
+                    builder
+                        .WithOrigins(allowedOriginsList)
+                        .SetIsOriginAllowedToAllowWildcardSubdomains()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
             
             services.AddTransient<HttpClient>();
             services.AddTransient<IConnectionMultiplexer, ConnectionMultiplexer>(provider =>

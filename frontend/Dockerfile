@@ -4,10 +4,10 @@ ARG DENHUB_API_URL
 ENV DENHUB_API_URL=${DENHUB_API_URL}
 RUN mkdir -p /app
 WORKDIR /app
-COPY package.json /app
+COPY package.json ./
 RUN npm install
-COPY . /app
-RUN ng build --prod
+COPY . ./
+RUN npm run build:prod
 
 # Publish
 FROM nginx:1.19.7-alpine

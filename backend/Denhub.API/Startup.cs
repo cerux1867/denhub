@@ -59,6 +59,8 @@ namespace Denhub.API {
 
             app.UseRouting();
 
+            app.UseCors("AllowedOrigins");
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

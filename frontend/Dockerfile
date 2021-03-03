@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package.json /app
 RUN npm install
 COPY . /app
-RUN npm run build --prod
+RUN ng build --prod
 
 # Publish
 FROM nginx:1.19.7-alpine

@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  denhubApiUrl: process.env.DENHUB_API_URL || 'https://localhost:5001'
 };
 
 /*

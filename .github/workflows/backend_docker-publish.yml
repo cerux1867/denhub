@@ -1,4 +1,4 @@
-name: Docker
+name: Backend image publish
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build image
-        run: docker build . --file ./backend/Denhub.API/Dockerfile --tag $IMAGE_NAME ./backend
+        run: docker build --file ./backend/Denhub.API/Dockerfile --tag $IMAGE_NAME ./backend
 
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin

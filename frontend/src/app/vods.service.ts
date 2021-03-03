@@ -1,7 +1,8 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class VodsService {
     if (title) {
       httpParams = httpParams.set('title', title);
     }
-    return this.httpClient.get<any[]>(`https://localhost:5001/vods/${channelName}`, {
+    return this.httpClient.get<any[]>(`${environment.denhubApiUrl}/vods/${channelName}`, {
       params: httpParams
     }).pipe(map((vods: any[]) => vods.map((vod: any) => {
       return {

@@ -24,7 +24,8 @@ export class VodsService {
       return {
         title: vod.title,
         thumbnailUrl: vod.thumbnailUrl,
-        length: vod.length
+        length: vod.length,
+        date: new Date(Date.parse(vod.date))
       }
     })));
   }

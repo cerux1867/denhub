@@ -5,8 +5,14 @@
     <img #image class="card-img-top img-fluid" [src]="thumbnailUrl" alt="Card image cap">
   </div>
   <div class="card-body text-light d-flex flex-column">
-    <h5 title="{{ title }}" class="card-title mt-auto">
-      {{ (title.length >62)? (title | slice:0:62)+'...':(title) }}</h5>
+    <h5 title="{{ title }}" class="card-title vod-card-title mb-1">
+      {{ (title.length >62)? (title | slice:0:62)+'...':(title) }}
+    </h5>
+    <div class="d-flex align-items-end vod-card-date mb-1">
+      <small title="300,696 views - {{ date.toLocaleString() }}" class="text-muted">
+        300K Views - {{ date.getTime() | humaniseDateAgo }}
+      </small>
+    </div>
     <div class="mt-auto">
       <span class="badge badge-pill badge-twitch">
         <i-bs name="twitch"></i-bs> Twitch

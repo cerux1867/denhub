@@ -24,7 +24,8 @@
   <div class="row" *ngIf="!isFirstLoad">
     <app-vod-card class="col-sm-12 col-md-4 col-xl-2 d-flex align-items-stretch" *ngFor="let vod of vodList"
       [title]="vod.title" [length]="vod.length | humaniseLength"
-      [thumbnailUrl]="vod.thumbnailUrl | transformTwitchThumbnailUrl">
+      [thumbnailUrl]="vod.thumbnailUrl | transformTwitchThumbnailUrl"
+      [date]="vod.date">
     </app-vod-card>
     <div *ngIf="isLoading" class="spinner-container col-sm-12 col-md-4 col-xl-2 d-flex align-items-stretch">
       <span class="spinner"></span>

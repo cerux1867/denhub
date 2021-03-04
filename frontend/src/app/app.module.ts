@@ -11,11 +11,13 @@ import { TransformTwitchThumbnailUrlPipe } from './transform-twitch-thumbnail-ur
 import { NgxBootstrapIconsModule, twitch } from 'ngx-bootstrap-icons';
 import { LazyImgDirective } from './lazy-img.directive';
 import { VodCardComponent } from './vod-card/vod-card.component';
+import { HumaniseDateAgo } from './humanise-date-ago.pipe';
 @NgModule({
   declarations: [
     AppComponent,
     VodListComponent,
     HumaniseLengthPipe,
+    HumaniseDateAgo,
     TransformTwitchThumbnailUrlPipe,
     LazyImgDirective,
     VodCardComponent,

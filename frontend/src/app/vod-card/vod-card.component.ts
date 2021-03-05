@@ -17,6 +17,8 @@ export class VodCardComponent implements AfterViewInit {
   public title: string;
   @Input()
   public date: Date;
+  @Input()
+  public viewCount: number;
 
   public isImageLoaded: boolean;
 
@@ -26,6 +28,7 @@ export class VodCardComponent implements AfterViewInit {
     this.title = "";
     this.isImageLoaded = false;
     this.date = new Date();
+    this.viewCount = 0;
   }
 
   ngAfterViewInit(): void {

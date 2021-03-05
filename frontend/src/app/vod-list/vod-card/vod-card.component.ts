@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vod-card',
@@ -8,7 +9,7 @@ import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/cor
 export class VodCardComponent implements AfterViewInit {
   @ViewChild('image')
   public image: any;
-  
+
   @Input()
   public thumbnailUrl: string;
   @Input()
@@ -19,21 +20,28 @@ export class VodCardComponent implements AfterViewInit {
   public date: Date;
   @Input()
   public viewCount: number;
+  @Input()
+  public vodId: number;
 
   public isImageLoaded: boolean;
 
-  constructor() { 
+  constructor(private router: Router) {
     this.thumbnailUrl = "";
     this.length = "";
     this.title = "";
     this.isImageLoaded = false;
     this.date = new Date();
     this.viewCount = 0;
+    this.vodId = 0;
   }
 
   ngAfterViewInit(): void {
-    this.image.nativeElement.onload =() => {
+    this.image.nativeElement.onload = () => {
       this.isImageLoaded = true;
     }
+  }
+
+  handleClick() {
+    this.router.navigate([`vods/${this.vodId}`])
   }
 }

@@ -1,4 +1,4 @@
-<div class="card vod-card bg-dark">
+<div (click)="handleClick()" class="card vod-card bg-dark">
   <div class="card-img-caption">
     <div *ngIf="!isImageLoaded" class="shimmer shine placeholder-card-img"></div>
     <p class="card-text text-light">{{length}}</p>

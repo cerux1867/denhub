@@ -6,10 +6,10 @@ import { IChannel } from './IChannel';
 
 @Component({
   selector: 'app-vod-list',
-  templateUrl: './vod-list.component.html',
-  styleUrls: ['./vod-list.component.scss']
+  templateUrl: './vod-list-container.component.html',
+  styleUrls: ['./vod-list-container.component.scss']
 })
-export class VodListComponent implements OnInit {
+export class VodListContainerComponent implements OnInit {
   public isLoading: boolean = false;
   public isFirstLoad: boolean = true;
   public loadedAll: boolean = false;

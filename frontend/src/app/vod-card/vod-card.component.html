@@ -9,8 +9,8 @@
       {{ (title.length >62)? (title | slice:0:62)+'...':(title) }}
     </h5>
     <div class="d-flex align-items-end vod-card-date mb-1">
-      <small title="300,696 views - {{ date.toLocaleString() }}" class="text-muted">
-        300K Views - {{ date.getTime() | humaniseDateAgo }}
+      <small title="{{ viewCount.toLocaleString() }} views - {{ date.toLocaleString() }}" class="text-muted">
+        {{ viewCount | humaniseViews }} Views - {{ date.getTime() | humaniseDateAgo }}
       </small>
     </div>
     <div class="mt-auto">

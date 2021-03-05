@@ -62,7 +62,8 @@ namespace Denhub.API.Services {
                         Length = Convert.ToInt32(videoItem.Duration.TotalSeconds),
                         Title = videoItem.Title,
                         Type = VodType.Twitch,
-                        ThumbnailUrl = videoItem.ThumbnailUrl
+                        ThumbnailUrl = videoItem.ThumbnailUrl,
+                        ViewCount = videoItem.ViewCount
                     })
                 .ToList();
             while (!string.IsNullOrEmpty(sequencedResponse.Pagination.Cursor)) {
@@ -76,7 +77,8 @@ namespace Denhub.API.Services {
                             Length = Convert.ToInt32(videoItem.Duration.TotalSeconds),
                             Title = videoItem.Title,
                             Type = VodType.Twitch,
-                            ThumbnailUrl = videoItem.ThumbnailUrl
+                            ThumbnailUrl = videoItem.ThumbnailUrl,
+                            ViewCount = videoItem.ViewCount
                         }));
                 }
             }

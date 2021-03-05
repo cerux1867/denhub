@@ -20,6 +20,7 @@ export class VodsService {
       params: httpParams
     }).pipe(map((vods: any[]) => vods.map((vod: any) => {
       return {
+        id: vod.platformVodId,
         title: vod.title,
         thumbnailUrl: vod.thumbnailUrl,
         length: vod.length,

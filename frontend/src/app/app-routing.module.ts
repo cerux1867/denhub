@@ -5,7 +5,8 @@ const routes: Routes = [
   {
     path: '', 
     loadChildren: () => import('./vod-list/vod-list.module').then(m => m.VodListModule)
-  }
+  },
+  { path: 'vods/:id', loadChildren: () => import('./vod/vod.module').then(m => m.VodModule) }
 ];
 
 @NgModule({

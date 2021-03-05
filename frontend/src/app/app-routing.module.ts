@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { VodListComponent } from './vod-list/vod-list.component';
+import { VodListContainerComponent } from './vod-list/vod-list-container/vod-list.component';
 
 const routes: Routes = [
   {
-    path: '', component: VodListComponent
+    path: '', component: VodListContainerComponent
   }
 ];
 

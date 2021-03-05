@@ -8,5 +8,6 @@ namespace Denhub.API.Models {
         public int Length { get; set; }
         public DateTime Date { get; set; }
         public VodType Type { get; set; }
+        public int ViewCount { get; set; } 
     }
 }

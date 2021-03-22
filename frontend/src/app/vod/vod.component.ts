@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-vod',
@@ -6,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./vod.component.scss']
 })
 export class VodComponent implements OnInit {
+  public vodId: string;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(private route: ActivatedRoute) { 
+    this.vodId = "";
   }
 
+  ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.vodId = params['id'];
+    });
+  }
 }

@@ -1,1 +1,15 @@
-<p>vod works!</p>
+<div class="vh-100 container-fluid pr-0 pl-0">
+  <div class="w-100">
+    <a routerLink="/">
+      <img class="img-fluid logo-img mt-3 mb-3" src="assets/logo.png" />
+    </a>
+  </div>
+  <div class="content-container d-flex">
+    <div class="player-container">
+      <app-vod-player [vodId]="vodId"></app-vod-player>
+    </div>
+    <div class="chat-container bg-dark">
+      <app-vod-chat [isLoading]="false"></app-vod-chat>
+    </div>
+  </div>
+</div>

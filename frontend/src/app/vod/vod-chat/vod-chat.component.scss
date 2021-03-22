@@ -1,0 +1,17 @@
+.chat-content {
+    // width: 100%;
+    height: calc(100vh - 55px - 1rem - 1rem);
+    overflow-y: scroll;
+}
+
+.chat-content::-webkit-scrollbar {
+    width: .4em; 
+}
+.chat-content::-webkit-scrollbar,
+.chat-content::-webkit-scrollbar-thumb {
+    overflow: visible;
+    border-radius: 4px;
+}
+.chat-content::-webkit-scrollbar-thumb {
+    background: #343a40;
+}

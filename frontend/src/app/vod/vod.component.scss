@@ -1,0 +1,31 @@
+.logo-img {
+    max-height: 50px;
+}
+
+.content-container {
+    height: calc(100vh - 50px - 1rem - 1rem);
+}
+
+.player-container {
+    width: 75%;
+    max-height: inherit;
+}
+
+.chat-container {
+    height: 100%;
+    width: 25%;
+}
+
+.scroll-container {
+    height: 100%;  
+    width: .4em;
+    -webkit-transition: all .5s;
+    transition: all .5s;
+    opacity: 1;
+}
+
+.chat-container:hover .scroll-container {
+    opacity: 0;
+    -webkit-transition: all .5s;
+    transition: all .5s;
+}

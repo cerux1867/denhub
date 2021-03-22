@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  denhubApiUrl: 'https://localhost:5001'
+  denhubApiUrl: 'http://localhost:5001'
 };
 
 /*

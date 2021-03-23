@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Denhub.API.Models;
 using Denhub.API.Models.Twitch;
-using Denhub.API.Utils;
+using Denhub.Common;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

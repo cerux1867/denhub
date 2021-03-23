@@ -4,6 +4,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denhub.API", "Denhub.API\De
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denhub.API.Tests", "Denhub.API.Tests\Denhub.API.Tests.csproj", "{70FEAAD4-C7E5-4780-85A5-6C287504E13D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denhub.StreamStateNotifier", "Denhub.StreamStateNotifier\Denhub.StreamStateNotifier.csproj", "{45CB1880-BF5D-4F42-BB0E-A1AD14E78C6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denhub.StreamStateNotifier.Tests", "Denhub.StreamStateNotifier.Tests\Denhub.StreamStateNotifier.Tests.csproj", "{A1ABD253-950A-4F19-B413-3849C537DBB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denhub.Common", "Denhub.Common\Denhub.Common.csproj", "{8673CD1C-5EB7-4FB1-AC72-D8BE2B5F53A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denhub.Common.Tests", "Denhub.Common.Tests\Denhub.Common.Tests.csproj", "{9120D3A1-DCA0-4103-9CB5-73ED9E4D1BA0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +26,21 @@ Global
 		{70FEAAD4-C7E5-4780-85A5-6C287504E13D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70FEAAD4-C7E5-4780-85A5-6C287504E13D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70FEAAD4-C7E5-4780-85A5-6C287504E13D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45CB1880-BF5D-4F42-BB0E-A1AD14E78C6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45CB1880-BF5D-4F42-BB0E-A1AD14E78C6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45CB1880-BF5D-4F42-BB0E-A1AD14E78C6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45CB1880-BF5D-4F42-BB0E-A1AD14E78C6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1ABD253-950A-4F19-B413-3849C537DBB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1ABD253-950A-4F19-B413-3849C537DBB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1ABD253-950A-4F19-B413-3849C537DBB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1ABD253-950A-4F19-B413-3849C537DBB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8673CD1C-5EB7-4FB1-AC72-D8BE2B5F53A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8673CD1C-5EB7-4FB1-AC72-D8BE2B5F53A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8673CD1C-5EB7-4FB1-AC72-D8BE2B5F53A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8673CD1C-5EB7-4FB1-AC72-D8BE2B5F53A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9120D3A1-DCA0-4103-9CB5-73ED9E4D1BA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9120D3A1-DCA0-4103-9CB5-73ED9E4D1BA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9120D3A1-DCA0-4103-9CB5-73ED9E4D1BA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9120D3A1-DCA0-4103-9CB5-73ED9E4D1BA0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

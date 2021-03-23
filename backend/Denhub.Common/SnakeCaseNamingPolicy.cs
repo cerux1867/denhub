@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
-using Denhub.API.Extensions;
+using Denhub.Common.Extensions;
 
-namespace Denhub.API.Utils {
+namespace Denhub.Common {
     public class SnakeCaseNamingPolicy : JsonNamingPolicy {
         public static SnakeCaseNamingPolicy Instance { get; } = new();
         

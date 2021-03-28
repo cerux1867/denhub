@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Denhub.API.Models;
 using Denhub.API.Models.Twitch;
 using Denhub.API.Services;
+using Denhub.Common;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -18,12 +19,12 @@ using Xunit;
 namespace Denhub.API.Tests.Services {
     public class TwitchClientTests {
         private readonly Mock<ILogger<TwitchClient>> _logger;
-        private readonly Mock<IOptions<TwitchClientSettings>> _optionsMock;
+        private readonly Mock<IOptions<TwitchSettings>> _optionsMock;
 
         public TwitchClientTests() {
             _logger = new Mock<ILogger<TwitchClient>>();
-            _optionsMock = new Mock<IOptions<TwitchClientSettings>>();
-            _optionsMock.SetupGet(m => m.Value).Returns(new TwitchClientSettings {
+            _optionsMock = new Mock<IOptions<TwitchSettings>>();
+            _optionsMock.SetupGet(m => m.Value).Returns(new TwitchSettings {
                 Token = "test",
                 ClientId = "test"
             });

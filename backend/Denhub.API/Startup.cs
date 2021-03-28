@@ -1,6 +1,7 @@
 using System.Net.Http;
 using Denhub.API.Models;
 using Denhub.API.Services;
+using Denhub.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,7 +20,7 @@ namespace Denhub.API {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
-            services.Configure<TwitchClientSettings>(options =>
+            services.Configure<TwitchSettings>(options =>
                 Configuration.GetSection("TwitchClientSettings").Bind(options));
 
             var allowedOrigins = Configuration.GetSection("Cors:AllowedOrigins");

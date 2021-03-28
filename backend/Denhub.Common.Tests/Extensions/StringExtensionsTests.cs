@@ -1,7 +1,7 @@
-﻿using Denhub.API.Extensions;
+﻿using Denhub.Common.Extensions;
 using Xunit;
 
-namespace Denhub.API.Tests.Extensions {
+namespace Denhub.Common.Tests.Extensions {
     public class StringExtensionsTests {
         [Theory]
         [InlineData("ThisIsATest", "this_is_a_test")]

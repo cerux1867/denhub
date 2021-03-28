@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Denhub.API.Models;
 using Denhub.API.Models.Twitch;
-using Denhub.API.Utils;
+using Denhub.Common;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -19,7 +19,7 @@ namespace Denhub.API.Services {
         private readonly ILogger<TwitchClient> _logger;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-        public TwitchClient(ILogger<TwitchClient> logger, HttpClient client, IOptions<TwitchClientSettings> settings) {
+        public TwitchClient(ILogger<TwitchClient> logger, HttpClient client, IOptions<TwitchSettings> settings) {
             _logger = logger;
             _httpClient = client;
             client.BaseAddress = new Uri("https://api.twitch.tv/helix/");

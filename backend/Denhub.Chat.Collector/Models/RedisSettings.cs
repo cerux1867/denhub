@@ -4,7 +4,7 @@
         public string ConfigString { get; set; }
 
         public RedisSettings() {
-            QueueListKey = "denhub_chat_messages_queue";
+            QueueListKey = "denhub_chat_messages_waiting_queue";
             ConfigString = "localhost:6379";
         }
     }

@@ -22,7 +22,7 @@ namespace Denhub.Chat.Collector {
                 queue.EnqueueAsync(eventArgs.UnprocessedMessage);
             };
             var appLifetime = host.Services.GetRequiredService<IHostApplicationLifetime>();
-            appLifetime.ApplicationStopping.Register(async () => {
+            appLifetime.ApplicationStopping.Register(() => {
                 bot.Dispose();
             });
             await host.RunAsync();

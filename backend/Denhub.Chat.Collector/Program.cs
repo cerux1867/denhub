@@ -1,11 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Denhub.Chat.Collector.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using RabbitMQ.Client;
 using Serilog;
-using StackExchange.Redis;
 
 namespace Denhub.Chat.Collector {
     class Program {
@@ -32,13 +33,18 @@ namespace Denhub.Chat.Collector {
             .UseSerilog()
             .ConfigureServices((context, services) => {
                 services.Configure<TwitchBotSettings>(context.Configuration.GetSection("TwitchBotSettings"));
-                services.Configure<RedisSettings>(context.Configuration.GetSection("Redis"));
+                services.Configure<QueueSettings>(context.Configuration.GetSection("Queue"));
                 
-                services.AddSingleton<IConnectionMultiplexer, ConnectionMultiplexer>(provider  => {
-                    var redisSettings = provider.GetRequiredService<IOptions<RedisSettings>>();
-                    return ConnectionMultiplexer.Connect(redisSettings.Value.ConfigString);
+                services.AddSingleton(provider => {
+                    var settings = provider.GetRequiredService<IOptions<QueueSettings>>();
+                    var factory = new ConnectionFactory {
+                        Uri = new Uri(settings.Value.ConnectionString),
+                        ClientProvidedName = "app:denhub component:chat-collector"
+                    };
+
+                    return factory.CreateConnection();
                 });
-                services.AddSingleton<IChatMessageAsyncQueue, RedisChatMessageQueue>();
+                services.AddSingleton<IChatMessageAsyncQueue, RabbitMqQueue>();
                 services.AddSingleton<ITwitchChatBot, TwitchChatBot>();
             });
     }

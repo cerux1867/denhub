@@ -19,6 +19,9 @@ namespace Denhub.Chat.Collector {
             _channel = _rabbitMqConnection.CreateModel();
             _channel.ExchangeDeclare(settings.Value.ExchangeName, ExchangeType.Direct, true);
             _channel.QueueDeclare(settings.Value.QueueName, true, false, false);
+            if (_settings.Value.FairDispatchEnabled) {
+                _channel.BasicQos(0, 1, false);  
+            }
             _channel.QueueBind(settings.Value.QueueName, settings.Value.ExchangeName, RoutingKey);
         }
         

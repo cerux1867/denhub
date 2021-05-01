@@ -1,4 +1,4 @@
-﻿namespace Denhub.Chat.Collector.Models {
+﻿namespace Denhub.Common {
     public class QueueSettings {
         public string QueueName { get; set; }
         public string ExchangeName { get; set; }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Denhub.Chat.Collector.Models;
+using Denhub.Common;
 using Microsoft.Extensions.Options;
 using Moq;
 using RabbitMQ.Client;

@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denhub.Chat.Collector.Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denhub.Chat.Processor", "Denhub.Chat.Processor\Denhub.Chat.Processor.csproj", "{F1607B77-48A1-48DE-9EAC-C8EBF30B420E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denhub.Chat.Processor.Tests", "Denhub.Chat.Processor.Tests\Denhub.Chat.Processor.Tests.csproj", "{322AA195-5931-40C1-94A4-15C42CC1267C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +50,9 @@ Global
 		{F1607B77-48A1-48DE-9EAC-C8EBF30B420E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1607B77-48A1-48DE-9EAC-C8EBF30B420E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1607B77-48A1-48DE-9EAC-C8EBF30B420E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{322AA195-5931-40C1-94A4-15C42CC1267C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{322AA195-5931-40C1-94A4-15C42CC1267C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{322AA195-5931-40C1-94A4-15C42CC1267C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{322AA195-5931-40C1-94A4-15C42CC1267C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Denhub.Chat.Collector.Models;
+using Denhub.Common;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 

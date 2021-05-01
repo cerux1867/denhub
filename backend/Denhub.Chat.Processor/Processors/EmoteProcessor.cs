@@ -1,0 +1,45 @@
+﻿using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Denhub.Chat.Processor.Caches;
+using Denhub.Chat.Processor.Models;
+
+namespace Denhub.Chat.Processor.Processors {
+    public class EmoteProcessor : IEmoteProcessor {
+        private readonly IEmoteCache _emoteCache;
+
+        public EmoteProcessor(IEmoteCache emoteCache) {
+            _emoteCache = emoteCache;
+        }
+
+        public async Task<TwitchChatMessage> EnrichWithExternalEmotesAsync(TwitchChatMessage chatMessage) {
+            var channelEmoteList = await _emoteCache.GetChannelCachedAsync(chatMessage.ChannelId);
+            foreach (var cachedEmote in channelEmoteList) {
+                var pattern = $@"(?:^|\W)({cachedEmote.Name})(?:$|\W)";
+                var matches = Regex.Matches(chatMessage.Message, pattern);
+                foreach (Match match in matches) {
+                    if (match.Groups.Count > 1 && match.Groups[1].Captures.Count > 0) {
+                        var msgEmotes = chatMessage.Emotes.ToList();
+                        foreach (Capture capture in match.Groups[1].Captures) {
+                            // Check if emote already exists in the emote list, if it does, break the loop.
+                            var existing = msgEmotes.FirstOrDefault(e =>
+                                e.StartIndex == capture.Index && e.EndIndex == capture.Index + capture.Length - 1);
+                            if (existing != null) {
+                                continue;
+                            }
+
+                            var emote = new TwitchEmote {
+                                EmoteUrl = cachedEmote.Urls,
+                                StartIndex = capture.Index,
+                                EndIndex = capture.Index + capture.Length - 1
+                            };
+                            chatMessage.Emotes = msgEmotes.Append(emote).ToList();
+                        }
+                    }
+                }
+            }
+
+            return chatMessage;
+        }
+    }
+}

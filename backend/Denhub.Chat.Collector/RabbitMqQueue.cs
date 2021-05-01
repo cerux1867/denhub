@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Denhub.Chat.Collector.Models;
+using Denhub.Common;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 

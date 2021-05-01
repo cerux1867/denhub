@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Denhub.Chat.Collector.Models;
+using Denhub.Common;
 
 namespace Denhub.Chat.Collector {
     public interface IChatMessageAsyncQueue {

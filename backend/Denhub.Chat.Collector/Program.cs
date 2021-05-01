@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Denhub.Chat.Collector.Models;
+using Denhub.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

@@ -48,9 +48,9 @@ namespace Denhub.Chat.Collector {
             await streamWriter.WriteLineAsync($"NICK {_twitchBotSettings.Value.BotUsername}");
             await streamWriter.WriteLineAsync("CAP REQ :twitch.tv/tags");
 
-            // TODO: Join all configured Twitch channels
             foreach (var channel in _twitchBotSettings.Value.ConfiguredChannels) {
                 await streamWriter.WriteLineAsync($"JOIN #{channel}");
+                _logger.LogInformation("Listening on channel {Channel}", channel);
             }
 
             _receiveMessageThread = new Thread(() => ReadMessages(streamReader, streamWriter));

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Denhub.Common;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using RabbitMQ.Client;
@@ -24,7 +25,8 @@ namespace Denhub.Chat.Collector.Tests {
             var channelMock = new Mock<IModel>();
             channelMock.Setup(m => m.CreateBasicProperties()).Returns(new Mock<IBasicProperties>().Object);
             connectionMock.Setup(m => m.CreateModel()).Returns(channelMock.Object);
-            var queue = new RabbitMqQueue(optionsMock.Object, connectionMock.Object);
+            var loggerMock = new Mock<ILogger<RabbitMqQueue>>();
+            var queue = new RabbitMqQueue(loggerMock.Object, optionsMock.Object, connectionMock.Object);
 
             await queue.EnqueueAsync(msg);
             

@@ -1,10 +1,12 @@
-name: Backend image publish
+name: Denhub API image publish
 
 on:
   push:
     # Publish `master` as Docker `latest` image.
     branches:
       - master
+    paths:
+      - "backend/Denhub.API*/**"
 
     # Publish `v1.2.3` tags as releases.
     tags:

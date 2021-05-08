@@ -48,7 +48,7 @@ namespace Denhub.Chat.Processor.Processors {
             _channel.QueueDeclare(_options.Value.QueueName, true, false, false);
             _channel.QueueBind(_options.Value.QueueName, _options.Value.ExchangeName, RoutingKey);
 
-            _logger.LogInformation("Worker {WorkerGuid} now listening for messages", _workerGuid);
+            _logger.LogInformation("Worker {WorkerGuid} now listening for messages on queue {QueueName} at {RabbitMqEndpoint}", _workerGuid, _options.Value.QueueName, _connection.Endpoint);
 
             return base.StartAsync(cancellationToken);
         }
@@ -64,8 +64,6 @@ namespace Denhub.Chat.Processor.Processors {
 
             var consumer = new AsyncEventingBasicConsumer(_channel);
             consumer.Received += async (_, eventArgs) => {
-                var stopWatch = new Stopwatch();
-                stopWatch.Start();
                 var rawMessage = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
                 try {
                     var message = JsonSerializer.Deserialize<UnprocessedChatMessage>(rawMessage);
@@ -82,8 +80,6 @@ namespace Denhub.Chat.Processor.Processors {
 
                         _channel.BasicAck(eventArgs.DeliveryTag, false);
                     }
-                    stopWatch.Stop();
-                    _logger.LogInformation("Message processing took: {TimeInMs} ms", stopWatch.ElapsedMilliseconds);
                 }
                 catch (JsonException ex) {
                     _logger.LogError(ex, "JSON parse error: {Error}", ex.Message);

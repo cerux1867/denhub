@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Denhub.Chat.Processor.Models;
+using Denhub.Common.Models;
 
 namespace Denhub.Chat.Processor.Processors {
     public class ChatMessagePreprocessor : IChatMessagePreprocessor {
@@ -14,10 +14,10 @@ namespace Denhub.Chat.Processor.Processors {
             _regex = new Regex(RegexPattern, RegexOptions.Compiled);
         }
         
-        public TwitchChatMessage ProcessMessage(string message) {
+        public TwitchChatMessageBackend ProcessMessage(string message) {
             var match = _regex.Match(message);
             var groups = match.Groups;
-            var partiallyProcessedTwitchMessage = new TwitchChatMessage {
+            var partiallyProcessedTwitchMessage = new TwitchChatMessageBackend {
                 RawBadges = groups[2].Captures.Count > 0 ? groups[2].Captures[0].Value.Split(",") : Array.Empty<string>(),
                 UserColor = groups[3].Captures.Count > 0 && !string.IsNullOrEmpty(groups[3].Captures[0].Value) ? groups[3].Captures[0].Value : "#858585",
                 UserDisplayName = groups[4].Captures.Count > 0 ? groups[11].Captures[0].Value : groups[4].Captures[0].Value,
@@ -43,11 +43,11 @@ namespace Denhub.Chat.Processor.Processors {
                 foreach (var indexPair in indices) {
                     var splitIndices = indexPair.Split("-");
                     var parsedEmote = new TwitchEmote {
-                        EmoteUrl = new List<Uri> {
-                            new ($"https://static-cdn.jtvnw.net/emoticons/v1/{emoteId}/1.0"),
-                            new ($"https://static-cdn.jtvnw.net/emoticons/v1/{emoteId}/2.0"),
-                            new ($"https://static-cdn.jtvnw.net/emoticons/v1/{emoteId}/3.0"),
-                            new ($"https://static-cdn.jtvnw.net/emoticons/v1/{emoteId}/4.0")
+                        EmoteUrl = new List<string> {
+                            $"https://static-cdn.jtvnw.net/emoticons/v1/{emoteId}/1.0",
+                            $"https://static-cdn.jtvnw.net/emoticons/v1/{emoteId}/2.0",
+                            $"https://static-cdn.jtvnw.net/emoticons/v1/{emoteId}/3.0",
+                            $"https://static-cdn.jtvnw.net/emoticons/v1/{emoteId}/4.0"
                         },
                         StartIndex = Convert.ToInt32(splitIndices[0]),
                         EndIndex = Convert.ToInt32(splitIndices[1])

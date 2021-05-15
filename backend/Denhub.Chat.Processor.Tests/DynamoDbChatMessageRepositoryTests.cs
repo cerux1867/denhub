@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
-using Denhub.Chat.Processor.Models;
+using Denhub.Common.Models;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using Xunit;
@@ -22,7 +22,7 @@ namespace Denhub.Chat.Processor.Tests {
             mockConfig.Setup(m => m.GetSection(It.IsAny<string>())).Returns(mockSection.Object);
             var repo = new DynamoDbChatMessageRepository(mockConfig.Object, mockedDynamoDbClient.Object);
 
-            await repo.AddAsync(new TwitchChatMessage {
+            await repo.AddAsync(new TwitchChatMessageBackend {
                 Message = "test"
             });
             

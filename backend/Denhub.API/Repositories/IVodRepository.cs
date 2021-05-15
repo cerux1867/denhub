@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Denhub.API.Models;
 
-namespace Denhub.API.Services {
+namespace Denhub.API.Repositories {
     public interface IVodRepository {
         /// <summary>
         /// Gets stored Vods 

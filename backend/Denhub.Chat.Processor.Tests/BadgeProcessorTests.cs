@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Denhub.Chat.Processor.Caches;
 using Denhub.Chat.Processor.Models;
 using Denhub.Chat.Processor.Processors;
+using Denhub.Common.Models;
 using Moq;
 using Xunit;
 

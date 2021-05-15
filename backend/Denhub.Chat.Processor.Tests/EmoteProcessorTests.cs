@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Denhub.Chat.Processor.Caches;
 using Denhub.Chat.Processor.Models;
 using Denhub.Chat.Processor.Processors;
+using Denhub.Common.Models;
 using Moq;
 using Xunit;
 
@@ -10,7 +11,7 @@ namespace Denhub.Chat.Processor.Tests {
     public class EmoteProcessorTests {
         [Fact]
         public async Task EnrichWithExternalEmotesAsync_MessageWithRawEmotes_EnrichedMessage() {
-            var msg = new TwitchChatMessage {
+            var msg = new TwitchChatMessageBackend {
                 Message = "YEP TEST YEP TEST",
                 Emotes = new List<TwitchEmote>()
             };
@@ -29,7 +30,7 @@ namespace Denhub.Chat.Processor.Tests {
         }
 
         public async Task EnrichWithExternalEmotesAsync_MessageWithNoEmotes_EnrichedMessage() {
-            var msg = new TwitchChatMessage {
+            var msg = new TwitchChatMessageBackend {
                 Message = "TEST TEST",
                 Emotes = new List<TwitchEmote>()
             };

@@ -5,9 +5,10 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Denhub.API.Models;
 using Denhub.API.Models.Twitch;
+using Denhub.API.Services;
 using StackExchange.Redis;
 
-namespace Denhub.API.Services {
+namespace Denhub.API.Repositories {
     /// <summary>
     /// Repository pattern over Redis and Twitch API that implements a read-through caching strategy.
     /// </summary>

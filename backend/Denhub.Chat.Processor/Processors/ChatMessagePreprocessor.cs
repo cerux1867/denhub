@@ -24,7 +24,7 @@ namespace Denhub.Chat.Processor.Processors {
                 Emotes = groups[5].Captures.Count > 0 && !string.IsNullOrEmpty(groups[5].Captures[0].Value) ? ProcessEmotes(groups[5].Captures[0].Value) : Array.Empty<TwitchEmote>().ToList(),
                 MessageId = groups[6].Captures[0].Value,
                 ChannelId = Convert.ToInt64(groups[7].Captures[0].Value),
-                Timestamp = DateTimeOffset.FromUnixTimeMilliseconds(Convert.ToInt64(groups[9].Captures[0].Value)).UtcDateTime,
+                Timestamp = Convert.ToInt64(groups[9].Captures[0].Value),
                 UserId = Convert.ToInt64(groups[10].Captures[0].Value),
                 ChannelDisplayName = groups[12].Captures[0].Value,
                 Message = groups[13].Captures[0].Value

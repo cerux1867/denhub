@@ -10,7 +10,7 @@ namespace Denhub.Chat.Processor.Models {
         [JsonIgnore]
         public ObjectId Id { get; set; }
         public string MessageId { get; set; }
-        public DateTime Timestamp { get; set; }
+        public long Timestamp { get; set; }
         public long UserId { get; set; }
         public string UserDisplayName { get; set; }
         public long ChannelId { get; set; }

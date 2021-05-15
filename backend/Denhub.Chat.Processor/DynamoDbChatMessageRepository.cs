@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using Denhub.Chat.Processor.Models;
+using Denhub.Common.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace Denhub.Chat.Processor {
@@ -15,8 +16,8 @@ namespace Denhub.Chat.Processor {
             _tableName = config.GetValue("Database:DynamoDB:TableName", "ChatMessages");
         }
 
-        public async Task AddAsync(TwitchChatMessage message) {
-            var serialisedMsg = JsonSerializer.Serialize(message);
+        public async Task AddAsync(TwitchChatMessageBackend messageBackend) {
+            var serialisedMsg = JsonSerializer.Serialize(messageBackend);
             await _dynamoDbClient.PutItemAsync(_tableName,
                 Document.FromJson(serialisedMsg).ToAttributeMap());
         }

@@ -57,10 +57,10 @@ namespace Denhub.Chat.Processor.Caches {
                         });
 
                 var parsedGlobalEmoteList = bttvGlobalEmoteList.Select(unparsedEmote => new CachedEmote {
-                    Name = unparsedEmote.Code, Urls = new List<Uri> {
-                        new($"{_bttvCdnBaseUri}/{unparsedEmote.Id}/1x"),
-                        new($"{_bttvCdnBaseUri}/{unparsedEmote.Id}/2x"),
-                        new($"{_bttvCdnBaseUri}/{unparsedEmote.Id}/3x")
+                    Name = unparsedEmote.Code, Urls = new List<string> {
+                        $"{_bttvCdnBaseUri}/{unparsedEmote.Id}/1x",
+                        $"{_bttvCdnBaseUri}/{unparsedEmote.Id}/2x",
+                        $"{_bttvCdnBaseUri}/{unparsedEmote.Id}/3x"
                     },
                     EmotePlatform = EmotePlatform.BetterTTV
                 }).ToList();
@@ -104,14 +104,14 @@ namespace Denhub.Chat.Processor.Caches {
                                 PropertyNamingPolicy = SnakeCaseNamingPolicy.Instance
                             });
                         foreach (var (_, name, jsonElement) in emoteSet.Emoticons) {
-                            var urls = new List<Uri>();
+                            var urls = new List<string>();
                             var expandedUrls = JsonSerializer.Deserialize<ExpandoObject>(jsonElement.ToString());
                             foreach (var emotePair in expandedUrls) {
                                 var url = emotePair.Value.ToString();
                                 if (url.StartsWith("//")) {
                                     url = $"https:{url}";
                                 }
-                                urls.Add(new Uri(url));
+                                urls.Add(url);
                             }
                             ffzChannelEmotes.Add(new CachedEmote {
                                 Name = name,
@@ -123,18 +123,18 @@ namespace Denhub.Chat.Processor.Caches {
                 }
 
                 var combinedEmotes = bttvChannelEmotes.Select(bttvEmote => new CachedEmote
-                        {Name = bttvEmote.Code, Urls = new List<Uri> {
-                            new($"{_bttvCdnBaseUri}/{bttvEmote.Id}/1x"),
-                            new($"{_bttvCdnBaseUri}/{bttvEmote.Id}/2x"),
-                            new($"{_bttvCdnBaseUri}/{bttvEmote.Id}/3x")
+                        {Name = bttvEmote.Code, Urls = new List<string> {
+                            $"{_bttvCdnBaseUri}/{bttvEmote.Id}/1x",
+                            $"{_bttvCdnBaseUri}/{bttvEmote.Id}/2x",
+                            $"{_bttvCdnBaseUri}/{bttvEmote.Id}/3x"
                         }})
                     .ToList();
                 combinedEmotes.AddRange(bttvSharedEmotes.Select(sharedEmote => new CachedEmote {
                     Name = sharedEmote.Code,
-                    Urls = new List<Uri> {
-                        new ($"{_bttvCdnBaseUri}/{sharedEmote.Id}/1x"),
-                        new ($"{_bttvCdnBaseUri}/{sharedEmote.Id}/2x"),
-                        new ($"{_bttvCdnBaseUri}/{sharedEmote.Id}/3x")
+                    Urls = new List<string> {
+                        $"{_bttvCdnBaseUri}/{sharedEmote.Id}/1x",
+                        $"{_bttvCdnBaseUri}/{sharedEmote.Id}/2x",
+                        $"{_bttvCdnBaseUri}/{sharedEmote.Id}/3x"
                     }
                 }));
                 combinedEmotes.AddRange(ffzChannelEmotes);

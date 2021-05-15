@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Denhub.Chat.Processor.Caches;
 using Denhub.Chat.Processor.Models;
 using Denhub.Chat.Processor.Tests.Utils;
+using Denhub.Common.Models;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;

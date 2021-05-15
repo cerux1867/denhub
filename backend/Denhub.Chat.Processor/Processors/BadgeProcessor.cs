@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Denhub.Chat.Processor.Caches;
 using Denhub.Chat.Processor.Models;
+using Denhub.Common.Models;
 
 namespace Denhub.Chat.Processor.Processors {
     public class BadgeProcessor : IBadgeProcessor {

@@ -5,12 +5,13 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Denhub.API.Models;
 using Denhub.API.Models.Twitch;
+using Denhub.API.Repositories;
 using Denhub.API.Services;
 using Moq;
 using StackExchange.Redis;
 using Xunit;
 
-namespace Denhub.API.Tests.Services {
+namespace Denhub.API.Tests.Repositories {
     public class RedisVodRepositoryTests {
         [Fact]
         public async Task GetOrFetchVodsAsync_InitialFetchVods_VodsList() {

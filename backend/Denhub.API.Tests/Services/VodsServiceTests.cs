@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Denhub.API.Models;
 using Denhub.API.Models.Twitch;
+using Denhub.API.Repositories;
 using Denhub.API.Services;
 using Microsoft.Extensions.Logging;
 using Moq;

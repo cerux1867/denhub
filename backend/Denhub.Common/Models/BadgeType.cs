@@ -1,4 +1,4 @@
-﻿namespace Denhub.Chat.Processor.Models {
+﻿namespace Denhub.Common.Models {
     public enum BadgeType {
         Subscriber,
         SubGifter,

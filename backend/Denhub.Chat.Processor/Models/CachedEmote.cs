@@ -5,6 +5,6 @@ namespace Denhub.Chat.Processor.Models {
     public class CachedEmote {
         public string Name { get; set; }
         public EmotePlatform EmotePlatform { get; set; }
-        public List<Uri> Urls { get; set; }
+        public List<string> Urls { get; set; }
     }
 }

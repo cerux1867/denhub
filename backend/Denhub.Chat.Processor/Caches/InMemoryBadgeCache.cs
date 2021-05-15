@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Denhub.Chat.Processor.Models;
 using Denhub.Common;
+using Denhub.Common.Models;
 using Microsoft.Extensions.Logging;
 
 namespace Denhub.Chat.Processor.Caches {
@@ -84,10 +85,10 @@ namespace Denhub.Chat.Processor.Caches {
                             "sub-gifter" => BadgeType.SubGifter,
                             _ => BadgeType.Other
                         },
-                        ImageUrls = new List<Uri> {
-                            new(rawVersionedBadge.image_url_1x),
-                            new(rawVersionedBadge.image_url_2x),
-                            new(rawVersionedBadge.image_url_4x)
+                        ImageUrls = new List<string> {
+                            rawVersionedBadge.image_url_1x,
+                            rawVersionedBadge.image_url_2x,
+                            rawVersionedBadge.image_url_4x
                         }
                     };
                     badgeList.Add(parsedBadge);

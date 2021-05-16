@@ -6,7 +6,6 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
-using Denhub.API.Models;
 using Denhub.API.Utils;
 using Denhub.Common.Models;
 using Microsoft.Extensions.Configuration;
@@ -69,7 +68,7 @@ namespace Denhub.API.Repositories {
             var context = new DynamoDBContext(_dynamoDbClient);
             var documents = queryResult.Items.Select(Document.FromAttributeMap).ToList();
 
-            if (queryResult.LastEvaluatedKey != null) {
+            if (queryResult.LastEvaluatedKey.Count >= 3) {
                 queryResult.LastEvaluatedKey.TryGetValue("MessageId", out var cursorMessageId);
                 queryResult.LastEvaluatedKey.TryGetValue("Timestamp", out var cursorTimestamp);
                 queryResult.LastEvaluatedKey.TryGetValue("ChannelId", out var cursorChannelId);

@@ -31,6 +31,7 @@ namespace Denhub.API.Controllers {
         /// <param name="timestamp">Optional starting timestamp</param>
         /// <param name="cursor">Optional pagination cursor to continue a previous paged query</param>
         /// <param name="limit">Optional pagination limit</param>
+        /// <param name="order">Defines sorting order. Allowed values are 'asc' and 'desc'. Default is 'asc'.</param>
         /// <returns>A list of messages and a pagination cursor if required</returns>
         /// <response code="200">
         /// Returns a list of messages with an optional pagination cursor if one is returned
@@ -43,13 +44,13 @@ namespace Denhub.API.Controllers {
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<TwitchChatMessagesResult>> GetByChannelNameAsync(
             [Required] [FromQuery] string channelName, [FromQuery] DateTime timestamp,
-            [FromQuery] string cursor, [FromQuery] int limit = 100) {
-            var result = await _logsService.GetByChannelAsync(channelName, timestamp, cursor, limit);
+            [FromQuery] string cursor, [FromQuery] int limit = 100, [FromQuery] string order = "asc") {
+            var result = await _logsService.GetByChannelAsync(channelName, timestamp, order, cursor, limit);
             if (result.Type == ResultType.NotFound) {
                 return NotFound(result.Errors.First());
             }
 
-            return Ok(result);
+            return Ok(result.Value);
         }
 
         /// <summary>
@@ -65,6 +66,7 @@ namespace Denhub.API.Controllers {
         /// <param name="timestamp">Optional starting timestamp</param>
         /// <param name="cursor">Optional pagination cursor to continue a previous paged query</param>
         /// <param name="limit">Optional pagination limit</param>
+        /// <param name="order">Defines sorting order. Allowed values are 'asc' and 'desc'. Default is 'asc'.</param>
         /// <returns>A list of messages and a pagination cursor if required</returns>
         /// <response code="200">
         /// Returns a list of messages with an optional pagination cursor if one is returned
@@ -73,10 +75,10 @@ namespace Denhub.API.Controllers {
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<TwitchChatMessagesResult>> GetByChannelIdAsync([FromRoute] long channelId,
             [FromQuery] DateTime timestamp,
-            [FromQuery] string cursor, [FromQuery] int limit = 100) {
-            var result = await _logsService.GetByChannelAsync(channelId, timestamp, cursor, limit);
+            [FromQuery] string cursor, [FromQuery] int limit = 100, [FromQuery] string order = "asc") {
+            var result = await _logsService.GetByChannelAsync(channelId, timestamp, order, cursor, limit);
 
-            return Ok(result);
+            return Ok(result.Value);
         }
     }
 }

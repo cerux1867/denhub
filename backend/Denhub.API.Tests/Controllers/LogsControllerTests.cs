@@ -18,7 +18,8 @@ namespace Denhub.API.Tests.Controllers {
         public async Task GetByChannelIdAsync_DefaultValues_Status200Ok() {
             var serviceMock = new Mock<ILogsService>();
             serviceMock.Setup(m =>
-                    m.GetByChannelAsync(It.IsAny<long>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<int>()))
+                    m.GetByChannelAsync(It.IsAny<long>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>(),
+                        It.IsAny<int>()))
                 .ReturnsAsync(Result.Ok(new TwitchChatMessagesResult {
                     ChatMessages = new List<TwitchChatMessagePublic> {
                         new(),
@@ -31,17 +32,18 @@ namespace Denhub.API.Tests.Controllers {
 
             var response = await controller.GetByChannelIdAsync(123, new DateTime(), null);
             var result = Assert.IsType<OkObjectResult>(response.Result);
-            var responseValue = Assert.IsAssignableFrom<ValueResult<TwitchChatMessagesResult>>(result.Value);
-            
+            var responseValue = Assert.IsAssignableFrom<TwitchChatMessagesResult>(result.Value);
+
             Assert.Equal(StatusCodes.Status200OK, result.StatusCode);
-            Assert.Equal(3, responseValue.Value.ChatMessages.Count());
+            Assert.Equal(3, responseValue.ChatMessages.Count());
         }
-        
+
         [Fact]
         public async Task GetByChannelIdAsync_PaginationCursor_Status200Ok() {
             var serviceMock = new Mock<ILogsService>();
             serviceMock.Setup(m =>
-                    m.GetByChannelAsync(It.IsAny<long>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<int>()))
+                    m.GetByChannelAsync(It.IsAny<long>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>(),
+                        It.IsAny<int>()))
                 .ReturnsAsync(Result.Ok(new TwitchChatMessagesResult {
                     ChatMessages = new List<TwitchChatMessagePublic> {
                         new(),
@@ -54,17 +56,18 @@ namespace Denhub.API.Tests.Controllers {
 
             var response = await controller.GetByChannelIdAsync(123, new DateTime(), "123");
             var result = Assert.IsType<OkObjectResult>(response.Result);
-            var responseValue = Assert.IsAssignableFrom<ValueResult<TwitchChatMessagesResult>>(result.Value);
-            
+            var responseValue = Assert.IsAssignableFrom<TwitchChatMessagesResult>(result.Value);
+
             Assert.Equal(StatusCodes.Status200OK, result.StatusCode);
-            Assert.Equal(3, responseValue.Value.ChatMessages.Count());
+            Assert.Equal(3, responseValue.ChatMessages.Count());
         }
-        
+
         [Fact]
         public async Task GetByChannelNameAsync_ValidName_Status200Ok() {
             var serviceMock = new Mock<ILogsService>();
             serviceMock.Setup(m =>
-                    m.GetByChannelAsync(It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<int>()))
+                    m.GetByChannelAsync(It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<string>(),
+                        It.IsAny<string>(), It.IsAny<int>()))
                 .ReturnsAsync(Result.Ok(new TwitchChatMessagesResult {
                     ChatMessages = new List<TwitchChatMessagePublic> {
                         new(),
@@ -77,17 +80,18 @@ namespace Denhub.API.Tests.Controllers {
 
             var response = await controller.GetByChannelNameAsync("test", new DateTime(), "123");
             var result = Assert.IsType<OkObjectResult>(response.Result);
-            var responseValue = Assert.IsAssignableFrom<ValueResult<TwitchChatMessagesResult>>(result.Value);
-            
+            var responseValue = Assert.IsAssignableFrom<TwitchChatMessagesResult>(result.Value);
+
             Assert.Equal(StatusCodes.Status200OK, result.StatusCode);
-            Assert.Equal(3, responseValue.Value.ChatMessages.Count());
+            Assert.Equal(3, responseValue.ChatMessages.Count());
         }
-        
+
         [Fact]
         public async Task GetByChannelNameAsync_InvalidName_Status404NotFound() {
             var serviceMock = new Mock<ILogsService>();
             serviceMock.Setup(m =>
-                    m.GetByChannelAsync(It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<int>()))
+                    m.GetByChannelAsync(It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<string>(),
+                        It.IsAny<string>(), It.IsAny<int>()))
                 .ReturnsAsync(Result.NotFound<TwitchChatMessagesResult>(default));
             var controller = new LogsController(serviceMock.Object);
 

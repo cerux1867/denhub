@@ -23,12 +23,13 @@ namespace Denhub.API.Repositories {
         }
 
         public async Task<(string, IEnumerable<TwitchChatMessageBackend>)> GetByChannelIdAsync(long channelId,
-            DateTime timestamp,
+            bool isAscending, DateTime timestamp,
             string paginationToken = null, int limit = 100) {
             var queryRequest = new QueryRequest {
                 IndexName = _indexName,
                 TableName = _tableName,
                 KeyConditionExpression = "ChannelId = :channelId AND #t >= :time",
+                ScanIndexForward = isAscending,
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
                     {
                         ":channelId", new AttributeValue {

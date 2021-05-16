@@ -89,7 +89,16 @@ namespace Denhub.API {
             services.AddTransient<IVodsService, VodsService>();
             services.AddControllers();
             services.AddSwaggerGen(c => {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Denhub.API", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo {
+                    Title = "Denhub Platform API",
+                    Version = "v1",
+                    Description = "A RESTful API providing core Platform functionality for Denhub",
+                    Contact = new OpenApiContact {
+                        Email = string.Empty,
+                        Url = new Uri("https://github.com/cerux1867"),
+                        Name = "cerux1867 (Maintainer)"
+                    }
+                });
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -101,6 +110,9 @@ namespace Denhub.API {
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
+            }
+
+            if (env.IsDevelopment() || Configuration.GetValue("Swagger:Enabled", false)) {
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Denhub.API v1"));
             }

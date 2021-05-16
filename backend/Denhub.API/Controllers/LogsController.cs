@@ -1,6 +1,9 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using Denhub.API.Models;
+using Denhub.API.Results;
 using Denhub.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +19,41 @@ namespace Denhub.API.Controllers {
         }
 
         /// <summary>
-        /// Retrieves logs from the specified channel
+        /// Retrieves logs from the specified channel by the channel name
+        /// </summary>
+        /// <remarks>
+        /// Sample request
+        /// 
+        ///     GET /logs?channelName=esfandtv
+        /// 
+        /// </remarks>
+        /// <param name="channelName">Twitch name of the channel</param>
+        /// <param name="timestamp">Optional starting timestamp</param>
+        /// <param name="cursor">Optional pagination cursor to continue a previous paged query</param>
+        /// <param name="limit">Optional pagination limit</param>
+        /// <returns>A list of messages and a pagination cursor if required</returns>
+        /// <response code="200">
+        /// Returns a list of messages with an optional pagination cursor if one is returned
+        /// </response>
+        /// <response code="404">
+        /// Channel with the given name was not found
+        /// </response>
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<TwitchChatMessagesResult>> GetByChannelNameAsync(
+            [Required] [FromQuery] string channelName, [FromQuery] DateTime timestamp,
+            [FromQuery] string cursor, [FromQuery] int limit = 100) {
+            var result = await _logsService.GetByChannelAsync(channelName, timestamp, cursor, limit);
+            if (result.Type == ResultType.NotFound) {
+                return NotFound(result.Errors.First());
+            }
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Retrieves logs from the specified channel by the channel ID
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -37,7 +74,7 @@ namespace Denhub.API.Controllers {
         public async Task<ActionResult<TwitchChatMessagesResult>> GetByChannelIdAsync([FromRoute] long channelId,
             [FromQuery] DateTime timestamp,
             [FromQuery] string cursor, [FromQuery] int limit = 100) {
-            var result = await _logsService.GetByChannelIdAsync(channelId, timestamp, cursor, limit);
+            var result = await _logsService.GetByChannelAsync(channelId, timestamp, cursor, limit);
 
             return Ok(result);
         }

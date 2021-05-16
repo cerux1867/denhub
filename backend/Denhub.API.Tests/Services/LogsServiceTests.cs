@@ -17,7 +17,7 @@ namespace Denhub.API.Tests.Services {
             var chatLogsRepoMock = new Mock<IChatLogsRepository>();
             var twitchClientMock = new Mock<ITwitchClient>();
             chatLogsRepoMock.Setup(m =>
-                    m.GetByChannelIdAsync(It.IsAny<long>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<int>()))
+                    m.GetByChannelIdAsync(It.IsAny<long>(), It.IsAny<bool>(),It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<int>()))
                 .ReturnsAsync((
                     "bla-blabla-test",
                     new List<TwitchChatMessageBackend> {
@@ -31,7 +31,7 @@ namespace Denhub.API.Tests.Services {
                 ));
             var service = new LogsService(chatLogsRepoMock.Object, twitchClientMock.Object);
 
-            var result = await service.GetByChannelAsync(123, DateTime.Now);
+            var result = await service.GetByChannelAsync(123, DateTime.Now, "asc");
             
             Assert.Equal(ResultType.Ok, result.Type);
             Assert.Equal(2, result.Value.ChatMessages.Count());
@@ -51,7 +51,7 @@ namespace Denhub.API.Tests.Services {
                     }
                 });
             chatLogsRepoMock.Setup(m =>
-                    m.GetByChannelIdAsync(It.IsAny<long>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<int>()))
+                    m.GetByChannelIdAsync(It.IsAny<long>(), It.IsAny<bool>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<int>()))
                 .ReturnsAsync((
                     "bla-blabla-test",
                     new List<TwitchChatMessageBackend> {
@@ -65,7 +65,7 @@ namespace Denhub.API.Tests.Services {
                 ));
             var service = new LogsService(chatLogsRepoMock.Object, twitchClientMock.Object);
 
-            var result = await service.GetByChannelAsync("test", DateTime.Now);
+            var result = await service.GetByChannelAsync("test", DateTime.Now, "asc");
             
             Assert.Equal(ResultType.Ok, result.Type);
             Assert.Equal(2, result.Value.ChatMessages.Count());
@@ -88,7 +88,7 @@ namespace Denhub.API.Tests.Services {
                     }
                 });
             chatLogsRepoMock.Setup(m =>
-                    m.GetByChannelIdAsync(It.IsAny<long>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<int>()))
+                    m.GetByChannelIdAsync(It.IsAny<long>(), It.IsAny<bool>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<int>()))
                 .ReturnsAsync((
                     "bla-blabla-test",
                     new List<TwitchChatMessageBackend> {
@@ -102,7 +102,7 @@ namespace Denhub.API.Tests.Services {
                 ));
             var service = new LogsService(chatLogsRepoMock.Object, twitchClientMock.Object);
 
-            var result = await service.GetByChannelAsync("test", DateTime.Now);
+            var result = await service.GetByChannelAsync("test", DateTime.Now, "asc");
             
             Assert.Equal(ResultType.NotFound, result.Type);
         }
@@ -116,7 +116,7 @@ namespace Denhub.API.Tests.Services {
                     Data = new List<TwitchUserItem>()
                 });
             chatLogsRepoMock.Setup(m =>
-                    m.GetByChannelIdAsync(It.IsAny<long>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<int>()))
+                    m.GetByChannelIdAsync(It.IsAny<long>(), It.IsAny<bool>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<int>()))
                 .ReturnsAsync((
                     "bla-blabla-test",
                     new List<TwitchChatMessageBackend> {
@@ -130,7 +130,7 @@ namespace Denhub.API.Tests.Services {
                 ));
             var service = new LogsService(chatLogsRepoMock.Object, twitchClientMock.Object);
 
-            var result = await service.GetByChannelAsync("test", DateTime.Now);
+            var result = await service.GetByChannelAsync("test", DateTime.Now, "asc");
             
             Assert.Equal(ResultType.NotFound, result.Type);
         }

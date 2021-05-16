@@ -34,11 +34,11 @@ namespace Denhub.API.Tests.Repositories {
                 .Returns(sectionMock.Object);
             var repo = new DynamoDbChatLogsRepository(configMock.Object, amazonClientMock.Object);
 
-            var (_, chatMessages) = await repo.GetByChannelIdAsync(123, DateTime.UtcNow);
-            
+            var (_, chatMessages) = await repo.GetByChannelIdAsync(123, true, DateTime.UtcNow);
+
             Assert.Equal(2, chatMessages.Count());
         }
-        
+
         [Fact]
         public async Task GetByChannelIdAsync_NoCursorPagedItems_ListOfChatMessages() {
             var amazonClientMock = new Mock<IAmazonDynamoDB>();
@@ -50,15 +50,15 @@ namespace Denhub.API.Tests.Repositories {
                         new()
                     },
                     LastEvaluatedKey = new Dictionary<string, AttributeValue> {
-                        {"MessageId", new AttributeValue("Test")}, 
-                        {
+                        {"MessageId", new AttributeValue("Test")}, {
                             "ChannelId", new AttributeValue {
                                 N = "123"
                             }
-                        },
-                        {"Timestamp", new AttributeValue {
-                            N = now
-                        }}
+                        }, {
+                            "Timestamp", new AttributeValue {
+                                N = now
+                            }
+                        }
                     }
                 });
             var configMock = new Mock<IConfiguration>();
@@ -72,13 +72,13 @@ namespace Denhub.API.Tests.Repositories {
                 .Returns(sectionMock.Object);
             var repo = new DynamoDbChatLogsRepository(configMock.Object, amazonClientMock.Object);
 
-            var (cursor, chatMessages) = await repo.GetByChannelIdAsync(123, DateTime.UtcNow);
-            
+            var (cursor, chatMessages) = await repo.GetByChannelIdAsync(123, true, DateTime.UtcNow);
+
             Assert.Equal(2, chatMessages.Count());
             var decoded = PaginationUtils.ConvertFromBase64(cursor);
             Assert.Equal($"Test,123,{now}", decoded);
         }
-        
+
         [Fact]
         public async Task GetByChannelIdAsync_Cursor_ListOfChatMessages() {
             var amazonClientMock = new Mock<IAmazonDynamoDB>();
@@ -90,16 +90,16 @@ namespace Denhub.API.Tests.Repositories {
                         new()
                     },
                     LastEvaluatedKey = new Dictionary<string, AttributeValue> {
-                        {"MessageId", new AttributeValue("Test")}, 
-                        {
+                        {"MessageId", new AttributeValue("Test")}, {
                             "ChannelId", new AttributeValue {
                                 N = "123"
                             }
-                        },
-                        {"Timestamp", new AttributeValue {
-                            N = now
-                        }}
-                    } 
+                        }, {
+                            "Timestamp", new AttributeValue {
+                                N = now
+                            }
+                        }
+                    }
                 });
             var configMock = new Mock<IConfiguration>();
             var sectionMock = new Mock<IConfigurationSection>();
@@ -112,8 +112,9 @@ namespace Denhub.API.Tests.Repositories {
                 .Returns(sectionMock.Object);
             var repo = new DynamoDbChatLogsRepository(configMock.Object, amazonClientMock.Object);
 
-            var (cursor, chatMessages) = await repo.GetByChannelIdAsync(123, DateTime.UtcNow, PaginationUtils.ConvertToBase64($"Test,123,{now}"));
-            
+            var (cursor, chatMessages) = await repo.GetByChannelIdAsync(123, true, DateTime.UtcNow,
+                PaginationUtils.ConvertToBase64($"Test,123,{now}"));
+
             Assert.Equal(2, chatMessages.Count());
             var decoded = PaginationUtils.ConvertFromBase64(cursor);
             Assert.Equal($"Test,123,{now}", decoded);

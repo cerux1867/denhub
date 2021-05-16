@@ -6,7 +6,7 @@ using Denhub.Common.Models;
 
 namespace Denhub.API.Repositories {
     public interface IChatLogsRepository {
-        public Task<(string, IEnumerable<TwitchChatMessageBackend>)> GetByChannelIdAsync(long channelId, DateTime timestamp,
-            string paginationToken = null, int limit = 100);
+        public Task<(string, IEnumerable<TwitchChatMessageBackend>)> GetByChannelIdAsync(long channelId, bool isAscending,
+            DateTime timestamp, string paginationToken = null, int limit = 100);
     }
 }

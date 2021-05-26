@@ -5,9 +5,13 @@ namespace Denhub.Chat.Collector.Models {
         public string BotUsername { get; set; }
         public string BotPassword { get; set; }
         public string[] ConfiguredChannels { get; set; }
+        public int MaxReconnectAttempts { get; }
+        public int IncrementalDelay { get; }
 
         public TwitchBotSettings() {
             ConfiguredChannels = Array.Empty<string>();
+            MaxReconnectAttempts = 5;
+            IncrementalDelay = 5;
         }
     }
 }

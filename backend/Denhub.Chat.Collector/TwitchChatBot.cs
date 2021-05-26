@@ -13,16 +13,38 @@ namespace Denhub.Chat.Collector {
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
 
         private readonly IOptions<TwitchBotSettings> _twitchBotSettings;
-        private readonly TcpClient _tcpClient;
+        private TcpClient _tcpClient;
         private readonly ILogger<TwitchChatBot> _logger;
         private Thread _receiveMessageThread;
         private CancellationToken _cancellationToken;
         private CancellationTokenSource _internalCancellationTokenSource;
+        private EventHandler _reconnectRequested;
+        private int _reconnectAttempts;
+        private int _incrementalDelay;
 
         public TwitchChatBot(IOptions<TwitchBotSettings> botSettings, ILogger<TwitchChatBot> logger) {
             _twitchBotSettings = botSettings;
+            _incrementalDelay = 0;
             _tcpClient = new TcpClient();
             _logger = logger;
+            _reconnectRequested += async (_, eventArgs) => {
+                if (_reconnectAttempts <= botSettings.Value.MaxReconnectAttempts) {
+                    _reconnectAttempts++;
+                    if (_receiveMessageThread.IsAlive) {
+                        _internalCancellationTokenSource?.Cancel();
+                    }
+
+                    Dispose();
+                    _tcpClient = new TcpClient();
+                    await Task.Delay(1000 * _incrementalDelay);
+                    _incrementalDelay += botSettings.Value.IncrementalDelay;
+                    await ConnectAsync();
+                }
+                else {
+                    _logger.LogError("Failed to establish connection to the Twitch IRC server after {NumAttempts} attempts", _reconnectAttempts - 1);
+                    throw new Exception("Failed to reconnect to the Twitch IRC server");
+                }
+            };
         }
 
         public async Task ConnectAsync() {
@@ -59,10 +81,26 @@ namespace Denhub.Chat.Collector {
 
         private void ReadMessages(StreamReader reader, StreamWriter writer) {
             while (!_cancellationToken.IsCancellationRequested) {
-                var line = reader.ReadLine();
+                var line = string.Empty;
+                try {
+                    line = reader.ReadLine();
+                }
+                catch (IOException ex) {
+                    if (_reconnectAttempts <= _twitchBotSettings.Value.MaxReconnectAttempts) {
+                        _reconnectRequested.Invoke(this, EventArgs.Empty);
+                        _logger.LogWarning("Failed to read from the Twitch TCP socket, reconnecting in {Delay}ms", 1000 * _incrementalDelay);
+                        break;
+                    }
+                    
+                    if (_reconnectAttempts > _twitchBotSettings.Value.MaxReconnectAttempts) {
+                        _logger.LogError(ex, "Failed to read from the Twitch TCP socket");
+                        throw;
+                    }
+                }
                 if (string.IsNullOrEmpty(line)) {
-                    _logger.LogWarning("Empty message line received, potential connectivity issues");
-                    continue;
+                    _logger.LogWarning("Empty message line received, reconnecting in {Delay}ms", 1000 * _incrementalDelay);
+                    _reconnectRequested.Invoke(this, EventArgs.Empty);
+                    break;
                 }
                 var splitLine = line.Split(" ");
                     

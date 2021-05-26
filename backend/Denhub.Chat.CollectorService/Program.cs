@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Denhub.Chat.Collector.Models;
+using Denhub.Chat.CollectorService.Models;
 using Denhub.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +11,7 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
 using Serilog;
 
-namespace Denhub.Chat.Collector {
+namespace Denhub.Chat.CollectorService {
     public class Program {
         public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())

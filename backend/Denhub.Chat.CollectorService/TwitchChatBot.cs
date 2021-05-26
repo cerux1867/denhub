@@ -63,7 +63,7 @@ namespace Denhub.Chat.Collector {
                 if (string.IsNullOrEmpty(line)) {
                     _logger.LogWarning("Empty message line received, potential connectivity issues");
                     continue;
-                }
+                };
                 var splitLine = line.Split(" ");
                     
                 if (line.StartsWith("PING")) {

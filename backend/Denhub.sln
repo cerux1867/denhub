@@ -8,13 +8,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denhub.Common", "Denhub.Com
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denhub.Common.Tests", "Denhub.Common.Tests\Denhub.Common.Tests.csproj", "{9120D3A1-DCA0-4103-9CB5-73ED9E4D1BA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denhub.Chat.Collector", "Denhub.Chat.Collector\Denhub.Chat.Collector.csproj", "{D9BCD80B-376F-4509-8F0B-8E2A25397C0E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denhub.Chat.Collector.Tests", "Denhub.Chat.Collector.Tests\Denhub.Chat.Collector.Tests.csproj", "{749D9D4A-20D8-4AE1-B8EB-7BAFE0571982}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denhub.Chat.Processor", "Denhub.Chat.Processor\Denhub.Chat.Processor.csproj", "{F1607B77-48A1-48DE-9EAC-C8EBF30B420E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denhub.Chat.Processor.Tests", "Denhub.Chat.Processor.Tests\Denhub.Chat.Processor.Tests.csproj", "{322AA195-5931-40C1-94A4-15C42CC1267C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denhub.Chat.Collector", "Denhub.Chat.Collector\Denhub.Chat.Collector.csproj", "{98042136-3213-4D5B-9996-5D8CDE20A788}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,10 +38,6 @@ Global
 		{9120D3A1-DCA0-4103-9CB5-73ED9E4D1BA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9120D3A1-DCA0-4103-9CB5-73ED9E4D1BA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9120D3A1-DCA0-4103-9CB5-73ED9E4D1BA0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D9BCD80B-376F-4509-8F0B-8E2A25397C0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D9BCD80B-376F-4509-8F0B-8E2A25397C0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D9BCD80B-376F-4509-8F0B-8E2A25397C0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D9BCD80B-376F-4509-8F0B-8E2A25397C0E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{749D9D4A-20D8-4AE1-B8EB-7BAFE0571982}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{749D9D4A-20D8-4AE1-B8EB-7BAFE0571982}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{749D9D4A-20D8-4AE1-B8EB-7BAFE0571982}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -54,5 +50,9 @@ Global
 		{322AA195-5931-40C1-94A4-15C42CC1267C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{322AA195-5931-40C1-94A4-15C42CC1267C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{322AA195-5931-40C1-94A4-15C42CC1267C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98042136-3213-4D5B-9996-5D8CDE20A788}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98042136-3213-4D5B-9996-5D8CDE20A788}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98042136-3213-4D5B-9996-5D8CDE20A788}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98042136-3213-4D5B-9996-5D8CDE20A788}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -72,12 +72,17 @@ namespace Denhub.Chat.Processor.Processors {
                     }
                     else {
                         var preprocessedMessage = _preprocessor.ProcessMessage(message.RawChatMessage);
-                        var badges = await _badgeProcessor.ProcessAsync(preprocessedMessage.ChannelId, preprocessedMessage.RawBadges.ToList());
-                        var enrichedMessage = await _emoteProcessor.EnrichWithExternalEmotesAsync(preprocessedMessage);
-                        enrichedMessage.Badges = badges;
-                        
-                        await _repository.AddAsync(enrichedMessage);
 
+                        if (string.IsNullOrEmpty(preprocessedMessage.MessageId)) {
+                            _logger.LogError("Message lacked required parameter MessageId, discarding. Message: {Message}", message.RawChatMessage);
+                        }
+                        else {
+                            var badges = await _badgeProcessor.ProcessAsync(preprocessedMessage.ChannelId, preprocessedMessage.RawBadges.ToList());
+                            var enrichedMessage = await _emoteProcessor.EnrichWithExternalEmotesAsync(preprocessedMessage);
+                            enrichedMessage.Badges = badges;
+                        
+                            await _repository.AddAsync(enrichedMessage);
+                        }
                         _channel.BasicAck(eventArgs.DeliveryTag, false);
                     }
                 }

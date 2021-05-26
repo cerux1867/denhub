@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <UserSecretsId>dotnet-Denhub.Chat.Collector-52090604-5FD0-4311-8A25-9A118CA8E538</UserSecretsId>
+        <UserSecretsId>dotnet-Denhub.Chat.CollectorService-BEF51EB8-414B-4B63-B1FD-834F4101B865</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>

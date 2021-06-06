@@ -7,7 +7,7 @@ using Denhub.Common.Models;
 namespace Denhub.Chat.Processor.Processors {
     public class ChatMessagePreprocessor : IChatMessagePreprocessor {
         private const string RegexPattern =
-            @"@badge-info=([^;]*).*badges=(.*\/[0-9]*)?.*color=([^;]*).*display-name=([^;]*).*emotes=([^;]*).*id=([^;]*).*room-id=([0-9]*);.*subscriber=([01]);.*tmi-sent-ts=([0-9]*);.*user-id=([0-9]*);.*:(.*)!.*@.*\sPRIVMSG\s#([^\s:]*)\s:(.*)";
+            @"(.*)!.*@.*\sPRIVMSG\s#([^\s:]*)\s:(.*)";
         private readonly Regex _regex;
 
         public ChatMessagePreprocessor() {
@@ -15,20 +15,53 @@ namespace Denhub.Chat.Processor.Processors {
         }
         
         public TwitchChatMessageBackend ProcessMessage(string message) {
-            var match = _regex.Match(message);
+            var partiallyProcessedTwitchMessage = new TwitchChatMessageBackend();
+
+            var splitMsg = message.Split(" :", 2);
+            var tags = splitMsg[0].Split(';');
+            foreach (var tag in tags) {
+                var splitTag = tag.Split('=');
+                switch (splitTag[0]) {
+                    case "badges":
+                        partiallyProcessedTwitchMessage.RawBadges = !string.IsNullOrEmpty(splitTag[1])
+                            ? splitTag[1].Split(",")
+                            : Array.Empty<string>();
+                        break;
+                    case "color":
+                        partiallyProcessedTwitchMessage.UserColor =
+                            !string.IsNullOrEmpty(splitTag[1]) ? splitTag[1] : "#858585";
+                        break;
+                    case "display-name":
+                        partiallyProcessedTwitchMessage.UserDisplayName =
+                            !string.IsNullOrEmpty(splitTag[1]) ? splitTag[1] : string.Empty;
+                        break;
+                    case "emotes":
+                        partiallyProcessedTwitchMessage.Emotes = !string.IsNullOrEmpty(splitTag[1])
+                            ? ProcessEmotes(splitTag[1])
+                            : Array.Empty<TwitchEmote>().ToList();
+                        break;
+                    case "id":
+                        partiallyProcessedTwitchMessage.MessageId = splitTag[1];
+                        break;
+                    case "room-id":
+                        partiallyProcessedTwitchMessage.ChannelId = Convert.ToInt64(splitTag[1]);
+                        break;
+                    case "tmi-sent-ts":
+                        partiallyProcessedTwitchMessage.Timestamp = Convert.ToInt64(splitTag[1]);
+                        break;
+                    case "user-id":
+                        partiallyProcessedTwitchMessage.UserId = Convert.ToInt64(splitTag[1]);
+                        break;
+                }
+            }
+            var match = _regex.Match(splitMsg[1]);
             var groups = match.Groups;
-            var partiallyProcessedTwitchMessage = new TwitchChatMessageBackend {
-                RawBadges = groups[2].Captures.Count > 0 ? groups[2].Captures[0].Value.Split(",") : Array.Empty<string>(),
-                UserColor = groups[3].Captures.Count > 0 && !string.IsNullOrEmpty(groups[3].Captures[0].Value) ? groups[3].Captures[0].Value : "#858585",
-                UserDisplayName = groups[4].Captures.Count > 0 ? groups[11].Captures[0].Value : groups[4].Captures[0].Value,
-                Emotes = groups[5].Captures.Count > 0 && !string.IsNullOrEmpty(groups[5].Captures[0].Value) ? ProcessEmotes(groups[5].Captures[0].Value) : Array.Empty<TwitchEmote>().ToList(),
-                MessageId = groups[6].Captures[0].Value,
-                ChannelId = Convert.ToInt64(groups[7].Captures[0].Value),
-                Timestamp = Convert.ToInt64(groups[9].Captures[0].Value),
-                UserId = Convert.ToInt64(groups[10].Captures[0].Value),
-                ChannelDisplayName = groups[12].Captures[0].Value,
-                Message = groups[13].Captures[0].Value
-            };
+            if (string.IsNullOrEmpty(partiallyProcessedTwitchMessage.UserDisplayName)) {
+                partiallyProcessedTwitchMessage.UserDisplayName = groups[1].Captures[0].Value;
+            }
+
+            partiallyProcessedTwitchMessage.ChannelDisplayName = groups[2].Captures[0].Value;
+            partiallyProcessedTwitchMessage.Message = groups[3].Captures[0].Value;
 
             return partiallyProcessedTwitchMessage;
         }

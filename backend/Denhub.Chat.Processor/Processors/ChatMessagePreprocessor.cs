@@ -14,8 +14,8 @@ namespace Denhub.Chat.Processor.Processors {
             _regex = new Regex(RegexPattern, RegexOptions.Compiled);
         }
         
-        public TwitchChatMessageBackend ProcessMessage(string message) {
-            var partiallyProcessedTwitchMessage = new TwitchChatMessageBackend();
+        public TwitchChatMessage ProcessMessage(string message) {
+            var partiallyProcessedTwitchMessage = new TwitchChatMessage();
 
             var splitMsg = message.Split(" :", 2);
             var tags = splitMsg[0].Split(';');

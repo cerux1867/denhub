@@ -16,7 +16,7 @@ namespace Denhub.Chat.Processor {
             _tableName = config.GetValue("Database:DynamoDB:TableName", "ChatMessages");
         }
 
-        public async Task AddAsync(TwitchChatMessageBackend messageBackend) {
+        public async Task AddAsync(TwitchChatMessage messageBackend) {
             var serialisedMsg = JsonSerializer.Serialize(messageBackend);
             await _dynamoDbClient.PutItemAsync(_tableName,
                 Document.FromJson(serialisedMsg).ToAttributeMap());

@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using Denhub.API.Models;
 using Denhub.Common.Models;
+using MongoDB.Driver.Linq;
 
 namespace Denhub.API.Repositories {
     public interface IChatLogsRepository {
-        public Task<(string, IEnumerable<TwitchChatMessageBackend>)> GetByChannelIdAsync(long channelId, bool isAscending,
-            DateTime timestamp, string paginationToken = null, int limit = 100);
+        /// <summary>
+        /// Asynchronously retrieves items as a <see cref="IMongoQueryable{T}"/>
+        /// </summary>
+        /// <returns>A LINQ-compatible MongoDB implementation of <see cref="IQueryable{T}"/> - <see cref="IMongoQueryable{T}"/></returns>
+        public Task<IMongoQueryable<TwitchChatMessage>> GetAllAsync();
+        
+        /// <summary>
+        /// Inserts an item into the database
+        /// </summary>
+        /// <param name="item">New item</param>
+        public Task InsertAsync(TwitchChatMessage item);
     }
 }

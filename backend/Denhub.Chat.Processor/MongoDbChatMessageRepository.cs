@@ -6,17 +6,17 @@ using MongoDB.Driver;
 
 namespace Denhub.Chat.Processor {
     public class MongoDbChatMessageRepository : IChatMessageRepository {
-        private readonly IMongoCollection<TwitchChatMessageBackend> _collection;
+        private readonly IMongoCollection<TwitchChatMessage> _collection;
         
         public MongoDbChatMessageRepository(IConfiguration config, IMongoClient mongoClient) {
             var dbName = config.GetValue("Database:MongoDB:DatabaseName", "denhub");
             var collectionName = config.GetValue("Database:MongoDB:CollectionName", "chat_messages");
             
             var db = mongoClient.GetDatabase(dbName);
-            _collection = db.GetCollection<TwitchChatMessageBackend>(collectionName);
+            _collection = db.GetCollection<TwitchChatMessage>(collectionName);
         }
         
-        public async Task AddAsync(TwitchChatMessageBackend messageBackend) {
+        public async Task AddAsync(TwitchChatMessage messageBackend) {
             await _collection.InsertOneAsync(messageBackend);
         }
     }

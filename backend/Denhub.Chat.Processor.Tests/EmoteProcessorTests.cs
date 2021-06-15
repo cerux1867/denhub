@@ -11,7 +11,7 @@ namespace Denhub.Chat.Processor.Tests {
     public class EmoteProcessorTests {
         [Fact]
         public async Task EnrichWithExternalEmotesAsync_MessageWithRawEmotes_EnrichedMessage() {
-            var msg = new TwitchChatMessageBackend {
+            var msg = new TwitchChatMessage {
                 Message = "YEP TEST YEP TEST",
                 Emotes = new List<TwitchEmote>()
             };
@@ -29,8 +29,9 @@ namespace Denhub.Chat.Processor.Tests {
             Assert.Equal(2, enrichedMessage.Emotes.Count);
         }
 
+        [Fact]
         public async Task EnrichWithExternalEmotesAsync_MessageWithNoEmotes_EnrichedMessage() {
-            var msg = new TwitchChatMessageBackend {
+            var msg = new TwitchChatMessage {
                 Message = "TEST TEST",
                 Emotes = new List<TwitchEmote>()
             };

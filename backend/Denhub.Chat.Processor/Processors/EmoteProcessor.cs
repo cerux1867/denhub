@@ -13,7 +13,7 @@ namespace Denhub.Chat.Processor.Processors {
             _emoteCache = emoteCache;
         }
 
-        public async Task<TwitchChatMessageBackend> EnrichWithExternalEmotesAsync(TwitchChatMessageBackend chatMessageBackend) {
+        public async Task<TwitchChatMessage> EnrichWithExternalEmotesAsync(TwitchChatMessage chatMessageBackend) {
             var channelEmoteList = await _emoteCache.GetChannelCachedAsync(chatMessageBackend.ChannelId);
             foreach (var cachedEmote in channelEmoteList) {
                 var pattern = $@"(?:^|\W)({cachedEmote.Name})(?:$|\W)";

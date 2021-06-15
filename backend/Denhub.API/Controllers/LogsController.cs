@@ -29,11 +29,7 @@ namespace Denhub.API.Controllers {
         /// 
         /// </remarks>
         /// <param name="channelName">Twitch name of the channel</param>
-        /// <param name="startDate">Optional starting timestamp in ISO 8601 format</param>
-        /// <param name="endDate">Optional ending timestamp in ISO 8601 format</param>
-        /// <param name="cursor">Optional pagination cursor to continue a previous paged query</param>
-        /// <param name="limit">Optional pagination limit</param>
-        /// <param name="order">Defines sorting order. Allowed values are 'asc' and 'desc'. Default is 'asc'.</param>
+        /// <param name="parameters">Query parameters</param>
         /// <returns>A list of messages and a pagination cursor if required</returns>
         /// <response code="200">
         /// Returns a list of messages with an optional pagination cursor if one is returned
@@ -44,11 +40,9 @@ namespace Denhub.API.Controllers {
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<PagedResult>> GetAllAsync([Required][FromQuery] string channelName,
-            [FromQuery] DateTime startDate, [FromQuery] DateTime? endDate, 
-            [FromQuery] string cursor, [FromQuery][Range(0, 100)] int limit = 100, [FromQuery] string order = "desc") {
+        public async Task<ActionResult<PagedResult>> GetAllAsync([Required][FromQuery] string channelName, [FromQuery] LogsParameters parameters) {
             var result =
-                await _logsService.GetByChannelNameAsync(channelName, startDate, endDate, order == "desc" ? SortDirection.Descending : SortDirection.Ascending, cursor, limit);
+                await _logsService.GetByChannelNameAsync(channelName, parameters.StartDate, parameters.EndDate, parameters.Order == "desc" ? SortDirection.Descending : SortDirection.Ascending, parameters.Cursor, parameters.Limit, parameters.Username);
             if (result.Type == ResultType.NotFound) {
                 return NotFound(new { error = result.Errors.First() });
             }
@@ -66,25 +60,19 @@ namespace Denhub.API.Controllers {
         /// 
         /// </remarks>
         /// <param name="channelId">Twitch channel ID of the channel</param>
-        /// <param name="startDate">Optional starting timestamp in ISO 8601 format</param>
-        /// <param name="endDate">Optional ending timestamp in ISO 8601 format</param>
-        /// <param name="cursor">Optional pagination cursor to continue a previous paged query</param>
-        /// <param name="limit">Optional pagination limit</param>
-        /// <param name="order">Defines sorting order. Allowed values are 'asc' and 'desc'. Default is 'asc'.</param>
+        /// <param name="parameters">Query parameters</param>
         /// <returns>A list of messages and a pagination cursor if required</returns>
         /// <response code="200">
         /// Returns a list of messages with an optional pagination cursor if one is returned
         /// </response>
         /// <response code="404">
-        /// Channel was not found or there are no stored logs from this channel
+        /// Channel or user were not found or there are no stored logs from this channel/user
         /// </response>
         [HttpGet("~/Channels/{channelId:long}/Logs")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<PagedResult>> GetByChannelIdAsync([FromRoute] long channelId,
-            [FromQuery] DateTime startDate, [FromQuery] DateTime? endDate,
-            [FromQuery] string cursor, [FromQuery][Range(0, 100)] int limit = 100, [FromQuery] string order = "desc") {
-            var result = await _logsService.GetByChannelIdAsync(channelId, startDate, endDate, order == "desc" ? SortDirection.Descending : SortDirection.Ascending, cursor, limit);
+        public async Task<ActionResult<PagedResult>> GetByChannelIdAsync([FromRoute] long channelId, [FromQuery] LogsParameters parameters) {
+            var result = await _logsService.GetByChannelIdAsync(channelId, parameters.StartDate, parameters.EndDate, parameters.Order == "desc" ? SortDirection.Descending : SortDirection.Ascending, parameters.Cursor, parameters.Limit, parameters.Username);
             if (result.Type == ResultType.NotFound) {
                 return NotFound(new { error = result.Errors.First() });
             }

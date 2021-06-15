@@ -14,8 +14,9 @@ namespace Denhub.API.Services {
         /// <param name="order">Defines sorting order. Default is <see cref="SortDirection.Descending"/></param>
         /// <param name="paginationCursor">An optional pagination cursor from which to continue result matching.</param>
         /// <param name="limit">An optional integer that defines the size of the page in pagination. Default is 100.</param>
+        /// <param name="username">An optional Twitch users' username</param>
         /// <returns>A <see cref="ValueResult{T}"/> which includes a <see cref="PagedResult"/> if successful</returns>
-        public Task<ValueResult<PagedResult>> GetByChannelIdAsync(long channelId, DateTime? startDate = null, DateTime? endDate = null, SortDirection order = SortDirection.Descending, string paginationCursor = null, int limit = 100);
+        public Task<ValueResult<PagedResult>> GetByChannelIdAsync(long channelId, DateTime? startDate = null, DateTime? endDate = null, SortDirection order = SortDirection.Descending, string paginationCursor = null, int limit = 100, string username = "");
 
         /// <summary>
         /// Retrieves a paged set of chat messages from a channel
@@ -26,9 +27,10 @@ namespace Denhub.API.Services {
         /// <param name="order">Defines sorting order. Default is <see cref="SortDirection.Descending"/></param>
         /// <param name="paginationCursor">An optional pagination cursor from which to continue result matching.</param>
         /// <param name="limit">An optional integer that defines the size of the page in pagination. Default is 100.</param>
+        /// <param name="username">An optional Twitch users' username</param>
         /// <returns>A <see cref="ValueResult{T}"/> which includes a <see cref="PagedResult"/> if successful</returns>
         public Task<ValueResult<PagedResult>> GetByChannelNameAsync(string channelName, DateTime? startDate = null,
             DateTime? endDate = null, SortDirection order = SortDirection.Descending, string paginationCursor = null,
-            int limit = 100);
+            int limit = 100, string username = "");
     }
 }

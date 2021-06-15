@@ -9,12 +9,15 @@ using Denhub.API.Models;
 using Denhub.API.Repositories;
 using Denhub.API.Services;
 using Denhub.Common;
+using Denhub.Common.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using MongoDB.Driver;
 using StackExchange.Redis;
 
 namespace Denhub.API {
@@ -29,40 +32,20 @@ namespace Denhub.API {
         public void ConfigureServices(IServiceCollection services) {
             services.Configure<TwitchSettings>(options =>
                 Configuration.GetSection("TwitchClientSettings").Bind(options));
+            services.Configure<MongoDbOptions>(options => {
+                Configuration.GetSection("Database:MongoDB").Bind(options);
+            });
 
             var dbVendor = Configuration.GetValue("Database:Vendor", "MongoDB");
             switch (dbVendor) {
-                case "DynamoDB":
-                    services.AddSingleton<IAmazonDynamoDB, AmazonDynamoDBClient>(_ => {
-                        var accessKey = Configuration.GetValue("Database:DynamoDB:AccessKey", "");
-                        var secretKey = Configuration.GetValue("Database:DynamoDB:SecretKey", "");
-
-                        if (string.IsNullOrEmpty(accessKey) || string.IsNullOrEmpty(secretKey)) {
-                            throw new Exception(
-                                "AWS access and secret keys are not specified, unable to connect to a DynamoDB instance");
-                        }
-
-                        var basicCreds = new BasicAWSCredentials(accessKey, secretKey);
-
-                        var dynamoDbConfig = new AmazonDynamoDBConfig();
-                        var serviceUrl = Configuration.GetValue("Database:DynamoDB:ServiceUrl", "");
-                        var regionEndpoint =
-                            Configuration.GetValue("Database:DynamoDB:RegionEndpoint", "");
-                        if (!string.IsNullOrEmpty(serviceUrl)) {
-                            dynamoDbConfig.ServiceURL = serviceUrl;
-                        }
-                        else if (!string.IsNullOrEmpty(regionEndpoint)) {
-                            dynamoDbConfig.RegionEndpoint = RegionEndpoint.GetBySystemName(regionEndpoint);
-                        }
-                        else {
-                            throw new Exception(
-                                "No region or service URL specified, unable to connect to a DynamoDB instance");
-                        }
-
-                        var client = new AmazonDynamoDBClient(basicCreds, dynamoDbConfig);
+                case "MongoDB":
+                    services.AddSingleton<IMongoClient, MongoClient>(serviceProvider => {
+                        var dbConnString = serviceProvider.GetRequiredService<IOptions<MongoDbOptions>>().Value
+                            .ConnectionString;
+                        var client = new MongoClient(dbConnString);
                         return client;
                     });
-                    services.AddSingleton<IChatLogsRepository, DynamoDbChatLogsRepository>();
+                    services.AddSingleton<IChatLogsRepository, ChatLogsRepository>();
                     break;
             }
 
@@ -80,12 +63,11 @@ namespace Denhub.API {
             });
 
             services.AddTransient<HttpClient>();
-            services.AddTransient<IConnectionMultiplexer, ConnectionMultiplexer>(provider =>
+            services.AddTransient<IConnectionMultiplexer, ConnectionMultiplexer>(_ =>
                 ConnectionMultiplexer.Connect(Configuration.GetValue("Redis:ConfigString", "localhost:6379")));
             services.AddTransient<ITwitchClient, TwitchClient>();
             services.AddTransient<IVodRepository, RedisVodRepository>();
-            services.AddTransient<IChatLogsRepository, DynamoDbChatLogsRepository>();
-            services.AddTransient<ILogsService, LogsService>();
+            services.AddTransient<ILogsService, MongoChatLogsService>();
             services.AddTransient<IVodsService, VodsService>();
             services.AddControllers();
             services.AddSwaggerGen(c => {

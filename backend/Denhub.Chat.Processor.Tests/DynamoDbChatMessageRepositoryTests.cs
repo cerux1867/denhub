@@ -22,7 +22,7 @@ namespace Denhub.Chat.Processor.Tests {
             mockConfig.Setup(m => m.GetSection(It.IsAny<string>())).Returns(mockSection.Object);
             var repo = new DynamoDbChatMessageRepository(mockConfig.Object, mockedDynamoDbClient.Object);
 
-            await repo.AddAsync(new TwitchChatMessageBackend {
+            await repo.AddAsync(new TwitchChatMessage {
                 Message = "test"
             });
             

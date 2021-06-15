@@ -4,6 +4,6 @@ using Denhub.Common.Models;
 
 namespace Denhub.Chat.Processor {
     public interface IChatMessageRepository {
-        public Task AddAsync(TwitchChatMessageBackend messageBackend);
+        public Task AddAsync(TwitchChatMessage messageBackend);
     }
 }

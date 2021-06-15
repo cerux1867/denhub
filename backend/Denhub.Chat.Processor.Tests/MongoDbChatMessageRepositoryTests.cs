@@ -18,22 +18,22 @@ namespace Denhub.Chat.Processor.Tests {
                 .Returns("denhub")
                 .Returns("chat_messages");
             mockConfig.Setup(m => m.GetSection(It.IsAny<string>())).Returns(mockSection.Object);
-            var mockedCollection = new Mock<IMongoCollection<TwitchChatMessageBackend>>();
-            mockedCollection.Setup(m => m.InsertOneAsync(It.IsAny<TwitchChatMessageBackend>(), It.IsAny<InsertOneOptions>(),
+            var mockedCollection = new Mock<IMongoCollection<TwitchChatMessage>>();
+            mockedCollection.Setup(m => m.InsertOneAsync(It.IsAny<TwitchChatMessage>(), It.IsAny<InsertOneOptions>(),
                 It.IsAny<CancellationToken>()));
             var mockedDb = new Mock<IMongoDatabase>();
             mockedDb.Setup(m =>
-                    m.GetCollection<TwitchChatMessageBackend>(It.IsAny<string>(), It.IsAny<MongoCollectionSettings>()))
+                    m.GetCollection<TwitchChatMessage>(It.IsAny<string>(), It.IsAny<MongoCollectionSettings>()))
                 .Returns(mockedCollection.Object);
             mockedMongoClient.Setup(m => m.GetDatabase(It.IsAny<string>(), It.IsAny<MongoDatabaseSettings>()))
                 .Returns(mockedDb.Object);
             var repo = new MongoDbChatMessageRepository(mockConfig.Object, mockedMongoClient.Object);
 
-            await repo.AddAsync(new TwitchChatMessageBackend {
+            await repo.AddAsync(new TwitchChatMessage {
                 Message = "test"
             });
             
-            mockedCollection.Verify(m => m.InsertOneAsync(It.IsAny<TwitchChatMessageBackend>(), It.IsAny<InsertOneOptions>(), It.IsAny<CancellationToken>()), Times.Once);
+            mockedCollection.Verify(m => m.InsertOneAsync(It.IsAny<TwitchChatMessage>(), It.IsAny<InsertOneOptions>(), It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }

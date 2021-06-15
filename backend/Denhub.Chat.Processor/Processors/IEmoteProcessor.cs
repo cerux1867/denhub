@@ -4,6 +4,6 @@ using Denhub.Common.Models;
 
 namespace Denhub.Chat.Processor.Processors {
     public interface IEmoteProcessor {
-        public Task<TwitchChatMessageBackend> EnrichWithExternalEmotesAsync(TwitchChatMessageBackend chatMessageBackend);
+        public Task<TwitchChatMessage> EnrichWithExternalEmotesAsync(TwitchChatMessage chatMessageBackend);
     }
 }

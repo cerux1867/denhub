@@ -3,6 +3,6 @@ using Denhub.Common.Models;
 
 namespace Denhub.Chat.Processor.Processors {
     public interface IChatMessagePreprocessor {
-        public TwitchChatMessageBackend ProcessMessage(string message);
+        public TwitchChatMessage ProcessMessage(string message);
     }
 }

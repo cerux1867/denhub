@@ -18,7 +18,9 @@ namespace Denhub.API.Services {
         }
 
         /// <inheritdoc />
-        public async Task<ValueResult<PagedResult>> GetByChannelIdAsync(long channelId, DateTime? startDate = null, DateTime? endDate = null, SortDirection order = SortDirection.Descending, string paginationCursor = null, int limit = 100) {
+        public async Task<ValueResult<PagedResult>> GetByChannelIdAsync(long channelId, DateTime? startDate = null,
+            DateTime? endDate = null, SortDirection order = SortDirection.Descending, string paginationCursor = null,
+            int limit = 100, string username = "") {
             var allowedChannels = await (await _chatLogsRepo.GetAllAsync())
                 .Select(l => l.ChannelId).Distinct().ToListAsync();
 
@@ -33,6 +35,18 @@ namespace Denhub.API.Services {
             var logs = await _chatLogsRepo.GetAllAsync();
             var queryableCollection = logs
                 .Where(l => l.ChannelId == channelId && l.Timestamp >= startAdjustedTimestamp.ToUnixTimeMilliseconds());
+
+            if (!string.IsNullOrEmpty(username)) {
+                var queryUserResponse = await _twitchClient.GetUsersAsync(new[] {username});
+                if (!queryUserResponse.Data.Any()) {
+                    return Result.NotFound<PagedResult>("User does was not found");
+                }
+
+                var userId = Convert.ToInt64(queryUserResponse.Data.First().Id);
+                queryableCollection = queryableCollection
+                    .Where(l => l.UserId == userId);
+            }
+            
             if (endDate.HasValue) {
                 queryableCollection = queryableCollection
                     .Where(l => l.Timestamp <= new DateTimeOffset(endDate.Value).ToUnixTimeMilliseconds());
@@ -62,15 +76,16 @@ namespace Denhub.API.Services {
             });
         }
 
-        public async Task<ValueResult<PagedResult>> GetByChannelNameAsync(string channelName, DateTime? startDate = null, DateTime? endDate = null,
-            SortDirection order = SortDirection.Descending, string paginationCursor = null, int limit = 100) {
+        public async Task<ValueResult<PagedResult>> GetByChannelNameAsync(string channelName, DateTime? startDate = null,
+            DateTime? endDate = null, SortDirection order = SortDirection.Descending, string paginationCursor = null,
+            int limit = 100, string username = "") {
             var channelQueryResponse = await _twitchClient.GetUsersAsync(new[] {channelName});
             if (!channelQueryResponse.Data.Any()) {
                 return Result.NotFound<PagedResult>("This channel has no logs stored or it does not exist");
             }
 
             var channelId = Convert.ToInt64(channelQueryResponse.Data.First().Id);
-            var result = await GetByChannelIdAsync(channelId, startDate, endDate, order, paginationCursor, limit);
+            var result = await GetByChannelIdAsync(channelId, startDate, endDate, order, paginationCursor, limit, username);
             return result;
         }
     }

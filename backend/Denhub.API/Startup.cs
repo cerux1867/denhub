@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
@@ -8,8 +9,10 @@ using Amazon.Runtime;
 using Denhub.API.Models;
 using Denhub.API.Repositories;
 using Denhub.API.Services;
+using Denhub.API.Utils;
 using Denhub.Common;
 using Denhub.Common.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -30,11 +33,9 @@ namespace Denhub.API {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
-            services.Configure<TwitchSettings>(options =>
-                Configuration.GetSection("TwitchClientSettings").Bind(options));
-            services.Configure<MongoDbOptions>(options => {
-                Configuration.GetSection("Database:MongoDB").Bind(options);
-            });
+            services.Configure<TwitchSettings>(Configuration.GetSection("TwitchClientSettings"));
+            services.Configure<MongoDbOptions>(Configuration.GetSection("Database:MongoDB"));
+            services.Configure<SecurityOptions>(Configuration.GetSection("Security"));
 
             var dbVendor = Configuration.GetValue("Database:Vendor", "MongoDB");
             switch (dbVendor) {
@@ -85,7 +86,17 @@ namespace Denhub.API {
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
+                var basicSecurityScheme = new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "basic",
+                    Reference = new OpenApiReference { Id = "BasicAuth", Type = ReferenceType.SecurityScheme }
+                };
+                c.AddSecurityDefinition(basicSecurityScheme.Reference.Id, basicSecurityScheme);
+                c.OperationFilter<AuthorizeCheckOperationFilter>();
             });
+            services.AddAuthentication("BasicAuthentication")
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -105,6 +116,7 @@ namespace Denhub.API {
 
             app.UseCors("AllowedOrigins");
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

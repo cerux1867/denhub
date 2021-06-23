@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Denhub.API.Models;
 using Denhub.API.Results;
 using Denhub.API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
@@ -37,6 +38,7 @@ namespace Denhub.API.Controllers {
         /// <response code="404">
         /// Channel was not found or there are no stored logs from this channel
         /// </response>
+        [Authorize]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -68,6 +70,7 @@ namespace Denhub.API.Controllers {
         /// <response code="404">
         /// Channel or user were not found or there are no stored logs from this channel/user
         /// </response>
+        [Authorize]
         [HttpGet("~/Channels/{channelId:long}/Logs")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
